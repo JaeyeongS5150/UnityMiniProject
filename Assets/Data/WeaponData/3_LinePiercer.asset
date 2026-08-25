@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f3435a22e1da5e4fb75a7ce50fd5cee, type: 3}
+  m_Name: 3_LinePiercer
+  m_EditorClassIdentifier: 
+  _weaponType: 2
+  _weaponName: "\uB77C\uC778 \uD53C\uC5B4\uC11C"
+  _weaponIcon: {fileID: 0}
+  _weaponDescription: "\uC9C1\uC120 \uAD00\uD1B5\uBAA8\uB4E0 \uC801\uC744 \uB6AB\uACE0
+    \uC9C0\uB098\uAC00\uBA70 \uACBD\uB85C\uC0C1\uC758 \uC801 \uC804\uCCB4 \uD0C0\uACA9"
+  _projectilePrefab: {fileID: 0}
+  _levelDataArray:
+  - damage: 12
+    fireRate: 1.5
+    range: 10
+    projectileSpeed: 22
+    projectileCount: 1
+    projectileScale: 1
+    pierceCount: 2
+    splashRadius: 0
+    burstCount: 0
+    burstInterval: 0
+    chainCount: 0
+    chainRadius: 0
+    returnDelay: 0
+    levelDescription: "\uC801 2\uCCB4\uB97C \uAD00\uD1B5\uD558\uB294 \uC9C1\uC120
+      \uD0C4\uD658 \uBC1C\uC0AC"
+  - damage: 18
+    fireRate: 1.4
+    range: 10.5
+    projectileSpeed: 22
+    projectileCount: 1
+    projectileScale: 1
+    pierceCount: 3
+    splashRadius: 0
+    burstCount: 0
+    burstInterval: 0
+    chainCount: 0
+    chainRadius: 0
+    returnDelay: 0
+    levelDescription: "\uB370\uBBF8\uC9C0 +6, \uAD00\uD1B5 \uC218 +1 (\uCD1D 3\uCCB4)"
+  - damage: 25
+    fireRate: 1.3
+    range: 11
+    projectileSpeed: 22
+    projectileCount: 1
+    projectileScale: 1
+    pierceCount: 4
+    splashRadius: 0
+    burstCount: 0
+    burstInterval: 0
+    chainCount: 0
+    chainRadius: 0
+    returnDelay: 0
+    levelDescription: "\uB370\uBBF8\uC9C0 +7, \uBC1C\uC0AC \uAC04\uACA9 \uB2E8\uCD95"
+  - damage: 35
+    fireRate: 1.2
+    range: 12
+    projectileSpeed: 22
+    projectileCount: 1
+    projectileScale: 1
+    pierceCount: 6
+    splashRadius: 0
+    burstCount: 0
+    burstInterval: 0
+    chainCount: 0
+    chainRadius: 0
+    returnDelay: 0
+    levelDescription: "\uB370\uBBF8\uC9C0 +10, \uAD00\uD1B5 \uC218 +2 (\uCD1D 6\uCCB4)"
+  - damage: 50
+    fireRate: 1
+    range: 13
+    projectileSpeed: 22
+    projectileCount: 1
+    projectileScale: 1
+    pierceCount: 99
+    splashRadius: 0
+    burstCount: 0
+    burstInterval: 0
+    chainCount: 0
+    chainRadius: 0
+    returnDelay: 0
+    levelDescription: "[Max] \uC0AC\uAC70\uB9AC \uB05D\uAE4C\uC9C0 \uBB34\uC81C\uD55C
+      \uC644\uC804 \uAD00\uD1B5"

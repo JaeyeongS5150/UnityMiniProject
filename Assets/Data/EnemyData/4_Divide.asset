@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91d1bd3ff6c0e541868ddedc745b91e, type: 3}
+  m_Name: 4_Divide
+  m_EditorClassIdentifier: 
+  _enemyType: 3
+  _enemyName: "\uB514\uBC14\uC774\uB4DC"
+  _enemyIcon: {fileID: 0}
+  _enemyDescription: "\uBD84\uC5F4\uD615: \uCC98\uCE58 \uC2DC \uC2A4\uCE74\uC6B0\uD2B8
+    2\uB9C8\uB9AC \uC0DD\uC131. \uAD00\uD1B5/\uBC94\uC704 \uACF5\uACA9 \uC720\uB3C4"
+  _maxHP: 32
+  _moveSpeed: 1.4
+  _damageToCore: 2
+  _expReward: 2
+  _spawnCost: 4
+  _splitCount: 2
+  _dividedPrefab: {fileID: 0}
+  _clusterCount: 9
+  _ghostTime: 0.3
+  _enemyPrefab: {fileID: 0}

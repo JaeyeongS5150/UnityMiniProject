@@ -6,12 +6,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     [Header("게임 컨트롤")]
+    [SerializeField] private bool _isLive;
     [SerializeField] private float _gameTime;
     //[SerializeField] private float _gameSpeed;
 
     [Header("오브젝트들 연결")]
+    [SerializeField] private BaseCore _core;
     [SerializeField] private PoolManager _pool;
 
+    #region 프로퍼티
+    public bool IsLive => _isLive;
+    public float GameTime => _gameTime;
+
+    public BaseCore Core => _core;
+    public PoolManager Pool => _pool;
+
+    #endregion
 
 
     private void Awake()
@@ -32,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        GameStart();
     }
 
 
@@ -41,17 +51,35 @@ public class GameManager : MonoBehaviour
         _gameTime += Time.deltaTime;
     }
 
+    private void GameStart()
+    {
+        _gameTime = 0f;
+        _isLive = true;
+        Time.timeScale = 1f;
+
+        if (_core == null)
+        {
+            GameObject coreObj = GameObject.FindGameObjectWithTag("Core");
+            if (coreObj != null)
+            {
+                _core = coreObj.GetComponent<BaseCore>();
+            }
+        }
+    }
+
     private void GamePause()
     {
-
+        _isLive = false;
+        Time.timeScale = 0f;
     }
 
     private void GameResume()
     {
-
+        _isLive = true;
+        Time.timeScale = 1f;
     }
 
-    private void GameFinished()
+    public void GameOver()
     {
 
     }

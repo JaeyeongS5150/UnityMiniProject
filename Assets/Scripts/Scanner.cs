@@ -9,42 +9,55 @@ public class Scanner : MonoBehaviour
     [SerializeField] private LayerMask _targetLayer;
     [SerializeField] private Transform _nearestTarget;
 
-    private RaycastHit[] _targets;
+    private Collider[] _hitBuffer = new Collider[50];
 
     public Transform NearestTarget => _nearestTarget;
-    public float ScanRange => _scanRange;
+    public float ScanRange
+    { 
+        get => _scanRange;
+        set => _scanRange = value;
+    }
 
     private void FixedUpdate()
     {
-        _targets = Physics.SphereCastAll(transform.position, _scanRange, Vector3.zero, 0, _targetLayer);
+        int hitCount = Physics.OverlapSphereNonAlloc(transform.position, _scanRange, _hitBuffer, _targetLayer);
 
-        _nearestTarget = GetNearest();
+        _nearestTarget = GetNearest(hitCount);
     }
 
-    private Transform GetNearest()
+    private Transform GetNearest(int hitCount)
     {
         Transform result = null;
-        float diff = 100; // 임시의 큰 값
+        float shortestDistance = _scanRange * _scanRange;   // 임의의 큰 수
+        Vector3 myPos = transform.position;
 
-        foreach (RaycastHit target in _targets)
+        for (int i = 0; i < hitCount; i++)
         {
-            Vector3 myPos = transform.position;
-            Vector3 targetPos = target.transform.position;
-            float curDiff = Vector3.Distance(myPos, targetPos);
-
-            if (curDiff < diff)
+            Collider col = _hitBuffer[i];
+            if (col == null)
             {
-                diff = curDiff;
-                result = target.transform;
+                continue;
+            }
+
+            Vector3 targetPos = col.transform.position;
+            targetPos.y = myPos.y;
+
+            float sqrtDist = (targetPos - myPos).sqrMagnitude;
+
+            if (sqrtDist < shortestDistance)
+            {
+                shortestDistance = sqrtDist;
+                result = col.transform;
             }
         }
 
         return result;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = _nearestTarget != null ? Color.red : Color.green;
+
         Gizmos.DrawWireSphere(transform.position, _scanRange);
     }
 }

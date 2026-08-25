@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 
@@ -17,37 +18,76 @@ public class WeaponDataSO : ScriptableObject
         Moonmerang      // 문메랑 (왕복 부메랑)
     }
 
-    [Header("기본 정보")]
+    [System.Serializable]
+    public struct WeaponLevelData
+    {
+        [Header("기본 전투 수치")]
+        public float damage;
+        public float fireRate;
+        public float range;
+        public float projectileSpeed;
+
+        [Header("투사체 판정 수치")]
+        [Tooltip("투사체 수")]
+        public int projectileCount;
+        [Tooltip("크기 배율")]
+        public float projectileScale;
+        [Tooltip("관통 횟수")]
+        public int pierceCount;
+        [Tooltip("폭발 반경")]
+        public float splashRadius;
+        [Tooltip("점사 탄환 수")]
+        public int burstCount;
+        [Tooltip("점사 간격")]
+        public float burstInterval;
+        [Tooltip("최대 연쇄 전이 횟수")]
+        public int chainCount;
+        [Tooltip("연쇄 탐색 반경")]
+        public float chainRadius;
+        [Tooltip("부메랑 복귀 딜레이")]
+        public float returnDelay;
+
+        [Header("레벨별 설명")]
+        [TextArea(1, 3)]
+        public string levelDescription;
+    }
+
+    [Header("고유 식별 정보")]
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private string _weaponName;
     [SerializeField] private Sprite _weaponIcon;
     [TextArea(2, 4)]
     [SerializeField] private string _weaponDescription;
 
-    [Header("무기 능력치")]
-    [Tooltip("기본 데미지")]
-    [SerializeField] private float _damage = 10f;
-    [Tooltip("초당 발사 간격 or 쿨다운")]
-    [SerializeField] private float _fireRate = 1f;
-    [Tooltip("포탑의 탐색 및 유효 사거리")]
-    [SerializeField] private float _range = 8f;
-    [Tooltip("투사체 속도")]
-    [SerializeField] private float _projectileSpeed = 12f;
-
     [Header("프리팹 연결")]
     [SerializeField] private GameObject _projectilePrefab;
+    // vfx prefabs
+    // audioclip
+
+    [Header("레벨별 스탯 (Index 0: Lv1 ~ Index 4: LvMax)")]
+    [SerializeField] private WeaponLevelData[] _levelDataArray = new WeaponLevelData[5];
 
     #region 프로퍼티
     public WeaponType Type => _weaponType;
     public string WeaponName => _weaponName;
     public Sprite WeaponIcon => _weaponIcon;
-    public string WeaponDescription => _weaponDescription;
-    public float Damage => _damage;
-    public float FireRate => _fireRate;
-    public float Range => _range;
-    public float ProjectileSpeed => _projectileSpeed;
-
 
     public GameObject ProjectilePrefab => _projectilePrefab;
+    public int MaxLevel => _levelDataArray != null ? _levelDataArray.Length : 0;
     #endregion
+
+    // 레벨을 받아 해당 레벨의 스탯 데이터를 안전하게 반환하기
+    public WeaponLevelData GetLevelData(int level)
+    {
+        if (_levelDataArray == null || _levelDataArray.Length == 0)
+        {
+            Debug.LogWarning($"[{name}] WeaponDataSO에 레벨 데이터가 설정되지 않았습니다.");
+            return default;
+        }
+
+        int targetIndex = Mathf.Clamp(level - 1, 0, _levelDataArray.Length - 1);
+
+        return _levelDataArray[targetIndex];
+    }
+
 }

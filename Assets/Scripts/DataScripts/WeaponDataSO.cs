@@ -59,6 +59,18 @@ public class WeaponDataSO : ScriptableObject
     [TextArea(2, 4)]
     [SerializeField] private string _weaponDescription;
 
+    [Header("오브젝트 풀링 인덱스")]
+    [Tooltip("풀 매니저의 프리팹 배열에서의 인덱스 번호")]
+    [SerializeField] private int _bulletPoolIndex;
+
+    [Header("라인 피어서 전용 풀 인덱스")]
+    [Tooltip("[ Head 프리팹 인덱스")]
+    [SerializeField] private int _headPoolIndex;
+    [Tooltip("■ Body 프리팹 인덱스")]
+    [SerializeField] private int _bodyPoolIndex;
+    [Tooltip("] Tail 프리팹 인덱스")]
+    [SerializeField] private int _tailPoolIndex;
+
     [Header("프리팹 연결")]
     [SerializeField] private GameObject _projectilePrefab;
     // vfx prefabs
@@ -72,11 +84,21 @@ public class WeaponDataSO : ScriptableObject
     public string WeaponName => _weaponName;
     public Sprite WeaponIcon => _weaponIcon;
 
+    public int BulletPoolIndex => _bulletPoolIndex;
     public GameObject ProjectilePrefab => _projectilePrefab;
+
+    public int HeadPoolIndex => _headPoolIndex;
+    public int BodyPoolIndex => _bodyPoolIndex;
+    public int TailPoolIndex => _tailPoolIndex;
+
     public int MaxLevel => _levelDataArray != null ? _levelDataArray.Length : 0;
     #endregion
 
-    // 레벨을 받아 해당 레벨의 스탯 데이터를 안전하게 반환하기
+    /// <summary>
+    /// 레벨을 받아 해당 레벨의 스탯 데이터를 안전하게 반환하기
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
     public WeaponLevelData GetLevelData(int level)
     {
         if (_levelDataArray == null || _levelDataArray.Length == 0)

@@ -25,7 +25,14 @@ public class Bullet : MonoBehaviour
         _coll.isTrigger = true;
     }
 
-    public void Setup(float damage, int pierce, Vector3 dir, float speed, float maxRange)
+    /// <summary>
+    /// 무기에 맞는 총알 정보로 발사 세팅
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="pierce"></param>
+    /// <param name="dir"></param>
+    /// <param name="speed"></param>
+    public void Setup(float damage, int pierce, Vector3 dir, float speed)
     {
         _damage = damage;
         _pierceCount = pierce;

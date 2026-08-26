@@ -62,6 +62,11 @@ public class Enemy : MonoBehaviour
         MoveToCore();
     }
 
+    /// <summary>
+    /// Enemy 초기화 함수
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="targetCore"></param>
     public void InitEnemy(EnemyDataSO data, Transform targetCore = null)
     {
         _data = data;
@@ -108,8 +113,10 @@ public class Enemy : MonoBehaviour
         transform.position += moveDir * (_currentMoveSpeed * Time.deltaTime);
     }
 
-
-
+    /// <summary>
+    /// Enemy의 체력이 감소하는 함수 (Bullet에서 호출)
+    /// </summary>
+    /// <param name="amount"></param>
     public void TakeDamage(float amount)
     {
         if (_state == EnemyState.Dead)
@@ -127,6 +134,11 @@ public class Enemy : MonoBehaviour
 
     // 각 타워 or 무기에서 관리
     #region 상태이상
+    /// <summary>
+    /// 슬로우 적용 (이동속도 비율만큼 감소)
+    /// </summary>
+    /// <param name="ratio"></param>
+    /// <param name="duration"></param>
     public void ApplySlow(float ratio, float duration)
     {
         if (_state == EnemyState.Dead)
@@ -144,6 +156,10 @@ public class Enemy : MonoBehaviour
         _currentMoveSpeed = _data.MoveSpeed;
     }
 
+    /// <summary>
+    /// 혼란 적용 (이동방향 반대로 잠시 이동)
+    /// </summary>
+    /// <param name="duration"></param>
     public void ApplyConfusion(float duration)
     {
         if (_state == EnemyState.Dead)
@@ -169,6 +185,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 구역안의 적 일시적으로 이동 멈춤
+    /// </summary>
+    /// <param name="duration"></param>
     public void ApplyStun(float duration)
     {
         if (_state == EnemyState.Dead)
@@ -194,7 +214,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void ApplyKnockback(Vector3 pushDir, float force)
+    /// <summary>
+    /// 잠시 뒤로 force만큼 밀려남
+    /// </summary>
+    /// <param name="force"></param>
+    public void ApplyKnockback(float force)
     {
         if (_rb != null && _state != EnemyState.Dead)
         {

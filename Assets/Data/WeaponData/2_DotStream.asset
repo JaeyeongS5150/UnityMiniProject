@@ -17,6 +17,7 @@ MonoBehaviour:
   _weaponIcon: {fileID: 0}
   _weaponDescription: "3\uC5F0\uC0AC \uC0AC\uACA9\uC791\uACE0 \uBE60\uB978 \uC6D0\uD615
     \uD0C4\uD658 3\uBC1C\uC744 \uC5F0\uC18D\uC73C\uB85C \uBC1C\uC0AC"
+  _bulletPoolIndex: 1
   _projectilePrefab: {fileID: 0}
   _levelDataArray:
   - damage: 4

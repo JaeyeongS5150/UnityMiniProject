@@ -122,7 +122,10 @@ public class BaseCore : MonoBehaviour
         return false;
     }
 
-
+    /// <summary>
+    /// 경험치 획득 (Enemy 사망시 호출)
+    /// </summary>
+    /// <param name="amount"></param>
     public void GetExp(int amount)
     {
         if (!GameManager.Instance.IsLive)
@@ -139,6 +142,9 @@ public class BaseCore : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 레벨업에 필요한 경험치 도달 시 호출
+    /// </summary>
     private void LevelUP()
     {
         _level++;
@@ -165,6 +171,10 @@ public class BaseCore : MonoBehaviour
         return 135 + (level - 16) * 18;
     }
 
+    /// <summary>
+    /// BasceCore 피격 시 체력감소 (Enemy에서 호출)
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
         if (!GameManager.Instance.IsLive)

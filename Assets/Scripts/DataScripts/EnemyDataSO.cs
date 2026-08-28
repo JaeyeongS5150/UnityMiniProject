@@ -19,6 +19,7 @@ public class EnemyDataSO : ScriptableObject
     [SerializeField] private EnemyType _enemyType;
     [SerializeField] private string _enemyName;
     [SerializeField] private Sprite _enemyIcon;
+    [TextArea(2, 3)]
     [SerializeField] private string _enemyDescription;
 
     [Header("전투 스탯")]
@@ -39,6 +40,10 @@ public class EnemyDataSO : ScriptableObject
     [Header("고스트 특성 전용")]
     [SerializeField] private float _ghostTime = 0.3f;
 
+    [Header("오브젝트 풀링 인덱스")]
+    [Tooltip("풀 매니저의 프리팹 배열에서의 인덱스 번호")]
+    [SerializeField] private int _enemyPoolIndex;
+
     [Header("프리팹 연결")]
     [SerializeField] private GameObject _enemyPrefab;
 
@@ -56,6 +61,7 @@ public class EnemyDataSO : ScriptableObject
     public int ClusterCount => _clusterCount;
     public float GhostTime => _ghostTime;
 
+    public int EnemyPoolIndex => _enemyPoolIndex;
     public GameObject EnemyPrefab => _enemyPrefab;
     #endregion
 }

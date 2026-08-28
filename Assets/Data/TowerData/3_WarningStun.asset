@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c755d96dbd15dbc4a8c7d8ceaeb362c0, type: 3}
+  m_Name: 3_WarningStun
+  m_EditorClassIdentifier: 
+  _ccType: 2
+  _towerName: "\uC6CC\uB2DD \uC2A4\uD134"
+  _towerIcon: {fileID: 0}
+  _towerDescription: "\uC6D0\uD615 \uBC14\uB2E5 \uACBD\uACE0 \uC7A5\uD310\r\n(0.5\uCD08
+    \uD6C4 \uBC18\uACBD \uB0B4 \uAD11\uC5ED \uAE30\uC808)"
+  _cooldown: 4
+  _range: 10
+  _subDamage: 8
+  _projectileSpeed: 0
+  _slowRatio: 0
+  _duration: 2
+  _knockbackForce: 0
+  _stunAreaRadius: 3.5
+  _warningDelay: 0.5
+  _bulletPoolIndex: 17
+  _towerPrefab: {fileID: 0}
+  _effectPrefab: {fileID: 0}

@@ -26,4 +26,5 @@ MonoBehaviour:
   _dividedPrefab: {fileID: 0}
   _clusterCount: 9
   _ghostTime: 0.3
+  _enemyPoolIndex: 14
   _enemyPrefab: {fileID: 0}

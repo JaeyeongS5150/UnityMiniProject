@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 [RequireComponent(typeof(Collider), typeof(Rigidbody))]
 public class ChainBullet : MonoBehaviour
@@ -15,8 +16,6 @@ public class ChainBullet : MonoBehaviour
 
     private Rigidbody _rb;
     private Collider _coll;
-
-    private readonly HashSet<Enemy> _hitEnemies = new HashSet<Enemy>();
 
     private void Awake()
     {
@@ -41,5 +40,71 @@ public class ChainBullet : MonoBehaviour
         _rb.angularVelocity = Vector3.zero;
     }
 
-    // TODO 체인 전이 구현하기
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy") && other.TryGetComponent<Enemy>(out var enemy))
+        {
+            // 이미 맞은 적은 무시
+            if (_hitEnemyList.Contains(enemy))
+            {
+                return;
+            }
+
+            enemy.TakeDamage(_damage);
+            _hitEnemyList.Add(enemy);
+
+            if (_remainChains > 0)
+            {
+                _remainChains--;
+                FindNextChainTarget(enemy.transform.position);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
+        else if (other.CompareTag("KillZone"))
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// ChainBullet을 맞은 적 위치 주변에 가까운 적을 찾아서 방향 전환
+    /// Scanner.cs와 비슷한 원리
+    /// </summary>
+    /// <param name="hitposition"></param>
+    private void FindNextChainTarget(Vector3 hitposition)
+    {
+        Collider[] hits = Physics.OverlapSphere(hitposition, _chainRadius, LayerMask.GetMask("Enemy"));
+        Transform nextTarget = null;
+        float shortestDistance = _chainRadius * _chainRadius;
+        
+        for (int i = 0;  i < hits.Length; i++)
+        {
+            if (hits[i].TryGetComponent<Enemy>(out Enemy nextEnemy))
+            {
+                if (!_hitEnemyList.Contains(nextEnemy))
+                {
+                    float sqrDist = (nextEnemy.transform.position - hitposition).sqrMagnitude;
+                    if (sqrDist < shortestDistance)
+                    {
+                        shortestDistance = sqrDist;
+                        nextTarget = nextEnemy.transform;
+                    }
+                }
+            }
+        }
+
+        if (nextTarget != null)
+        {
+            Vector3 newDir = (nextTarget.position - transform.position);
+            newDir.y = 0f;
+            _rb.velocity = newDir.normalized * _speed;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }

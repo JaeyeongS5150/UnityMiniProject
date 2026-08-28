@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c755d96dbd15dbc4a8c7d8ceaeb362c0, type: 3}
+  m_Name: 1_SlowField
+  m_EditorClassIdentifier: 
+  _ccType: 0
+  _towerName: "\uC2AC\uB85C\uC6B0 \uD544\uB4DC"
+  _towerIcon: {fileID: 0}
+  _towerDescription: "\uAD00\uD1B5\uD615 \uAC00\uB85C \uB9C9\uB300 \uD22C\uC0AC\uCCB4\r\n(\uACBD\uB85C\uC0C1
+    \uBAA8\uB4E0 \uC801 \uAC10\uC18D)"
+  _cooldown: 2.2
+  _range: 9
+  _subDamage: 3
+  _projectileSpeed: 14
+  _slowRatio: 0.4
+  _duration: 3
+  _knockbackForce: 0
+  _stunAreaRadius: 0
+  _warningDelay: 0
+  _bulletPoolIndex: 15
+  _towerPrefab: {fileID: 0}
+  _effectPrefab: {fileID: 0}

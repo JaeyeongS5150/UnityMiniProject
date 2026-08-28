@@ -39,6 +39,10 @@ public class TowerDataSO : ScriptableObject
     [Tooltip("워닝 스턴 발동 전 경고 시간")]
     [SerializeField] private float _warningDelay = 0.5f;
 
+    [Header("오브젝트 풀링 인덱스")]
+    [Tooltip("풀 매니저의 프리팹 배열에서의 인덱스 번호")]
+    [SerializeField] private int _bulletPoolIndex;
+
     [Header("3D 프리팹")]
     [SerializeField] private GameObject _towerPrefab;
     [SerializeField] private GameObject _effectPrefab; // 투사체 또는 장판 프리팹
@@ -57,6 +61,7 @@ public class TowerDataSO : ScriptableObject
     public float KnockbackForce => _knockbackForce;
     public float StunAreaRadius => _stunAreaRadius;
     public float WarningDelay => _warningDelay;
+    public int BulletPoolIndex => _bulletPoolIndex;
     public GameObject TowerPrefab => _towerPrefab;
     public GameObject EffectPrefab => _effectPrefab;
     #endregion

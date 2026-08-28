@@ -20,10 +20,11 @@ MonoBehaviour:
   _maxHP: 3
   _moveSpeed: 2.2
   _damageToCore: 1
-  _expReward: 0.3
+  _expReward: 0
   _spawnCost: 3
   _splitCount: 2
   _dividedPrefab: {fileID: 0}
   _clusterCount: 9
   _ghostTime: 0.3
+  _enemyPoolIndex: 13
   _enemyPrefab: {fileID: 0}

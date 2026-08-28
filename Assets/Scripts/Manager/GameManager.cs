@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("오브젝트들 연결")]
     [SerializeField] private BaseCore _core;
     [SerializeField] private PoolManager _pool;
+    [SerializeField] private WaveManager _wave;
 
     #region 프로퍼티
     public bool IsLive => _isLive;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     public BaseCore Core => _core;
     public PoolManager Pool => _pool;
+    public WaveManager Wave => _wave;
 
     #endregion
 

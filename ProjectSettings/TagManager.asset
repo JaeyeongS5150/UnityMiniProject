@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Bullet
   - Core
+  - Tower
+  - KillZone
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Enemy
   - Core
   - Bullet
-  - 
+  - Tower
   - 
   - 
   - 

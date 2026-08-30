@@ -28,6 +28,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _currentMoveSpeed;
     [SerializeField] private EnemyState _state = EnemyState.Chasing;
 
+    [Header("디바이드 분열 설정")]
+    [Tooltip("분열 시 소환할 스카우트(▲)의 풀 인덱스")]
+    [SerializeField] private int _scouterPoolIndex = 9;
+
     private Rigidbody _rb;
     private Collider _coll;
     private Coroutine _ccRoutine;
@@ -237,9 +241,16 @@ public class Enemy : MonoBehaviour
     {
         _state = EnemyState.Dead;
 
-        if (_mainCore != null && _mainCore.TryGetComponent<BaseCore>(out BaseCore core))
+        if (_data != null && _data.Type == EnemyDataSO.EnemyType.Divide)
         {
-            core.GetExp(_exp);
+            GameManager.Instance.Spawner.SpawnDividedScouters(_scouterPoolIndex, transform.position);
+        }
+        
+        GameManager.Instance.Core.GetExp(_exp);
+
+        if (GameManager.Instance.Wave != null)
+        {
+            GameManager.Instance.Wave.OnEnemyKilled(this);
         }
 
         gameObject.SetActive(false);

@@ -27,5 +27,5 @@ MonoBehaviour:
   _stunAreaRadius: 0
   _warningDelay: 0
   _bulletPoolIndex: 15
-  _towerPrefab: {fileID: 0}
+  _towerPrefab: {fileID: 4109334231628789809, guid: 5dd07eb6892fe9c4eabf925112f755ad, type: 3}
   _effectPrefab: {fileID: 0}

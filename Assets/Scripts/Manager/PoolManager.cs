@@ -166,10 +166,10 @@ public class PoolManager : MonoBehaviour
 
             if (!_lifeMap.ContainsKey(obj))
             {
-                Debug.Log($"라이프 정보 없음 : {obj.name}");
+                //Debug.Log($"라이프 정보 없음 : {obj.name}");
 
-                ReturnToPool(obj);
-                _aliveObjects.RemoveAt(i);
+                //ReturnToPool(obj);
+                //_aliveObjects.RemoveAt(i);
                 continue;
             }
 

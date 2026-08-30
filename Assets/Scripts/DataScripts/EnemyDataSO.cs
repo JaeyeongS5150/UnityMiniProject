@@ -27,8 +27,8 @@ public class EnemyDataSO : ScriptableObject
     [SerializeField] private float _moveSpeed = 1f;
     [SerializeField] private float _damageToCore = 1f;
     [SerializeField] private int _expReward = 1;
-    [Tooltip("라운드 난이도 계산용 스폰 코스트")]
-    [SerializeField] private int _spawnCost = 1;
+    //[Tooltip("라운드 난이도 계산용 스폰 코스트")]
+    //[SerializeField] private int _spawnCost = 1;
 
     [Header("디바이드 특성 전용")]
     [SerializeField] private int _splitCount = 2;
@@ -55,7 +55,7 @@ public class EnemyDataSO : ScriptableObject
     public float MoveSpeed => _moveSpeed;
     public float DamageToCore => _damageToCore;
     public int ExpReward => _expReward;
-    public int Cost => _spawnCost;
+    //public int Cost => _spawnCost;
 
     public int SplitCount => _splitCount;
     public int ClusterCount => _clusterCount;

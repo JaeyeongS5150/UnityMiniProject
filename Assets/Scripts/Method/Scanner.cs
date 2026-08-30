@@ -54,7 +54,7 @@ public class Scanner : MonoBehaviour
         return result;
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = _nearestTarget != null ? Color.red : Color.green;
 

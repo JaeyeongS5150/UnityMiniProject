@@ -24,6 +24,9 @@ public class BaseCore : MonoBehaviour
     [SerializeField] private Transform[] _towerSpawnPoints = new Transform[4];
     private Tower[] _equippedTowers = new Tower[4];
 
+    [Header("테스트용 포탑")]
+    [SerializeField] private TowerDataSO _testTowerData; // 테스트용 삭제 필요
+
     public int Level => _level;
     public float CurrentHp => _currentHp;
     public float MaxHp => _maxHp;
@@ -38,6 +41,52 @@ public class BaseCore : MonoBehaviour
         if (_initialWeapon != null)
         {
             AddOrUpgradeWeapon(_initialWeapon);
+        }
+    }
+
+    private void Update()
+    {
+        // [프로토타입 테스트용 단축키] 숫자 1, 2, 3, 4 키로 각 슬롯에 포탑 배치
+        if (Input.GetKeyDown(KeyCode.Alpha1)) EquipTower(0, _testTowerData);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) EquipTower(1, _testTowerData);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) EquipTower(2, _testTowerData);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) EquipTower(3, _testTowerData);
+    }
+
+    /// <summary>
+    /// 특정 슬롯 인덱스에 포탑을 생성 및 초기화하여 장착
+    /// </summary>
+    public void EquipTower(int slotIndex, TowerDataSO towerData)
+    {
+        if (_towerSpawnPoints == null || slotIndex < 0 || slotIndex >= _towerSpawnPoints.Length)
+        {
+            Debug.LogWarning($"[BaseCore] 유효하지 않은 포탑 슬롯 인덱스: {slotIndex}");
+            return;
+        }
+
+        if (towerData == null || towerData.TowerPrefab == null)
+        {
+            Debug.LogWarning("[BaseCore] 장착할 포탑 데이터 또는 프리팹이 없습니다.");
+            return;
+        }
+
+        Transform slot = _towerSpawnPoints[slotIndex];
+
+        // 기존에 장착된 포탑이 있다면 제거
+        if (slot.childCount > 0)
+        {
+            for (int i = slot.childCount - 1; i >= 0; i--)
+            {
+                Destroy(slot.GetChild(i).gameObject);
+            }
+        }
+
+        // 포탑 인스턴스화 및 슬롯 자식으로 부착
+        GameObject towerObj = Instantiate(towerData.TowerPrefab, slot.position, slot.rotation, slot);
+
+        if (towerObj.TryGetComponent<Tower>(out var tower))
+        {
+            tower.InitTower(towerData);
         }
     }
 

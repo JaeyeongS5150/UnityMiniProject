@@ -8,12 +8,14 @@ public class GameManager : MonoBehaviour
     [Header("게임 컨트롤")]
     [SerializeField] private bool _isLive;
     [SerializeField] private float _gameTime;
+    [SerializeField] private int _currentWave;
     //[SerializeField] private float _gameSpeed;
 
     [Header("오브젝트들 연결")]
     [SerializeField] private BaseCore _core;
     [SerializeField] private PoolManager _pool;
     [SerializeField] private WaveManager _wave;
+    [SerializeField] private Spawner _spawner;
 
     #region 프로퍼티
     public bool IsLive => _isLive;
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
     public BaseCore Core => _core;
     public PoolManager Pool => _pool;
     public WaveManager Wave => _wave;
+    public Spawner Spawner => _spawner;
 
     #endregion
 
@@ -51,6 +54,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _gameTime += Time.deltaTime;
+
+        _currentWave = _wave.CurrentWave;
     }
 
     private void GameStart()

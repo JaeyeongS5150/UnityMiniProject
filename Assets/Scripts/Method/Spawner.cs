@@ -86,10 +86,28 @@ public class Spawner : MonoBehaviour
 
     /// <summary>
     /// 웨이브 마다 소환될 보스용 메서드
+    /// 기존 적들의 크기를 키운 보스
+    /// 추가 체력및 골드를 줌
     /// </summary>
     /// <param name="poolIndex"></param>
-    public void SpawnBoss(int poolIndex)
+    public void SpawnBoss(EnemyDataSO bossData)
     {
+        if (_spawnPoints == null || _spawnPoints.Length <= 1 || bossData == null)
+        {
+            return;
+        }
+        Transform point = _spawnPoints[Random.Range(1, _spawnPoints.Length)];
+        GameObject bossObj = GameManager.Instance.Pool.GetObjFromPool(bossData.EnemyPoolIndex, -1f);
 
+        if (bossObj != null)
+        {
+            bossObj.transform.position = point.position;
+            bossObj.transform.localScale = Vector3.one * 2.2f; // 보스 크기 확대
+
+            if (bossObj.TryGetComponent<Enemy>(out var enemy))
+            {
+                enemy.InitEnemy(bossData, GameManager.Instance.Core != null ? GameManager.Instance.Core.transform : null);
+            }
+        }
     }
 }

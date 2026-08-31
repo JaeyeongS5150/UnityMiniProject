@@ -18,11 +18,14 @@ MonoBehaviour:
   _weaponDescription: "3\uC5F0\uC0AC \uC0AC\uACA9\uC791\uACE0 \uBE60\uB978 \uC6D0\uD615
     \uD0C4\uD658 3\uBC1C\uC744 \uC5F0\uC18D\uC73C\uB85C \uBC1C\uC0AC"
   _bulletPoolIndex: 1
+  _headPoolIndex: 0
+  _bodyPoolIndex: 0
+  _tailPoolIndex: 0
   _projectilePrefab: {fileID: 0}
   _levelDataArray:
   - damage: 4
     fireRate: 1.2
-    range: 7.5
+    range: 27.5
     projectileSpeed: 16
     projectileCount: 1
     projectileScale: 1
@@ -36,7 +39,7 @@ MonoBehaviour:
     levelDescription: "\uC5F0\uC0AC \uD0C4\uD658 \uACE0\uC18D \uC810\uC0AC"
   - damage: 6
     fireRate: 1.1
-    range: 8
+    range: 28
     projectileSpeed: 16
     projectileCount: 1
     projectileScale: 1
@@ -51,7 +54,7 @@ MonoBehaviour:
       +0.5"
   - damage: 8
     fireRate: 1
-    range: 8.5
+    range: 28.5
     projectileSpeed: 16
     projectileCount: 1
     projectileScale: 1
@@ -65,7 +68,7 @@ MonoBehaviour:
     levelDescription: "\uB370\uBBF8\uC9C0 +2, \uC810\uC0AC \uAC04\uACA9 \uB2E8\uCD95"
   - damage: 11
     fireRate: 0.9
-    range: 9
+    range: 29
     projectileSpeed: 16
     projectileCount: 1
     projectileScale: 1
@@ -80,7 +83,7 @@ MonoBehaviour:
       (3 \u2192 4\uBC1C)"
   - damage: 15
     fireRate: 0.8
-    range: 9.5
+    range: 29.5
     projectileSpeed: 16
     projectileCount: 1
     projectileScale: 1

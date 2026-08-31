@@ -20,6 +20,11 @@ public class Weapon : MonoBehaviour
         _scanner = GetComponent<Scanner>();
     }
 
+    private void Start()
+    {
+        InitWeapon(_data);
+    }
+
     private void Update()
     {
         if (!GameManager.Instance.IsLive || _data == null)
@@ -79,6 +84,11 @@ public class Weapon : MonoBehaviour
         {
             _fireTimer = 0f;
             Transform spawnPoint = _firePoint != null ? _firePoint : transform;
+
+            if (GameManager.Instance != null && GameManager.Instance.Core != null)
+            {
+                GameManager.Instance.Core.PlayAttackMotion();
+            }
 
             switch (_data.Type)
             {

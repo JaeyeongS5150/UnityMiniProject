@@ -9,7 +9,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _isLive;
     [SerializeField] private float _gameTime;
     [SerializeField] private int _currentWave;
-    //[SerializeField] private float _gameSpeed;
+
+    [Header("게임 배속 설정 (1x ~ 4x)")]
+    [SerializeField] private float[] _gameSpeeds = {1f, 2f, 3f};
+    [SerializeField] private int _currentSpeedIndex = 0;
 
     [Header("오브젝트들 연결")]
     [SerializeField] private BaseCore _core;
@@ -56,6 +59,40 @@ public class GameManager : MonoBehaviour
         _gameTime += Time.deltaTime;
 
         _currentWave = _wave.CurrentWave;
+
+        HandleSpeedInput();
+    }
+
+    /// <summary>
+    /// 배속 단축키 (F1~F4 직접 설정)
+    /// </summary>
+    private void HandleSpeedInput()
+    {
+        if (Input.GetKeyDown(KeyCode.F1)) SetGameSpeed(0);
+        if (Input.GetKeyDown(KeyCode.F2)) SetGameSpeed(1);
+        if (Input.GetKeyDown(KeyCode.F3)) SetGameSpeed(2);
+    }
+
+    /// <summary>
+    /// 특정 인덱스의 속도로 변경
+    /// </summary>
+    public void SetGameSpeed(int speedIndex)
+    {
+        if (speedIndex < 0 || speedIndex >= _gameSpeeds.Length) return;
+
+        _currentSpeedIndex = speedIndex;
+        ApplyTimeScale();
+    }
+
+    private void ApplyTimeScale()
+    {
+        if (!_isLive) return;
+
+        float targetSpeed = _gameSpeeds[_currentSpeedIndex];
+        Time.timeScale = targetSpeed;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
+        Debug.Log($"<color=lime>[GameManager] 게임 배속 변경: {targetSpeed:F1}x</color>");
     }
 
     private void GameStart()

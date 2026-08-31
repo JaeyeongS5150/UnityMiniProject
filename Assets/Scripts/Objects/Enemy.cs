@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public enum EnemyState
     {
         Chasing,    // 기지 추적 접근
+        AttackCore, // 기지 콜라이더 접촉 후 정지 및 공격
         Stunned,    // 기절 (완전 정지)
         Confused,   // 혼란 (180도 역주행)
         Dead        // 사망 처리
@@ -28,6 +29,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _currentMoveSpeed;
     [SerializeField] private EnemyState _state = EnemyState.Chasing;
 
+    [Header("공격 모션")]
+    [SerializeField] private float _attackInterval = 1.0f;
+    [SerializeField] private Animator _animator;
+    private static readonly int AnimIsAttacking = Animator.StringToHash("isAttacking");
+    private static readonly int AnimAttackTrigger = Animator.StringToHash("Attack");
+
     [Header("디바이드 분열 설정")]
     [Tooltip("분열 시 소환할 스카우트(▲)의 풀 인덱스")]
     [SerializeField] private int _scouterPoolIndex = 9;
@@ -35,6 +42,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody _rb;
     private Collider _coll;
     private Coroutine _ccRoutine;
+    private float _attackTimer = 0f;
 
     public float Damage => _damage;
     public bool IsDead => _state == EnemyState.Dead;
@@ -44,6 +52,11 @@ public class Enemy : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _coll = GetComponent<Collider>();
+
+        if (_animator == null)
+        {
+            _animator = GetComponentInChildren<Animator>();
+        }
 
         _rb.useGravity = false;
         _rb.isKinematic = false;
@@ -63,7 +76,17 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        MoveToCore();
+        switch (_state)
+        {
+            case EnemyState.Chasing:
+            case EnemyState.Confused:
+                MoveToCore();
+                break;
+
+            case EnemyState.AttackCore:
+                HandleCoreAttack();
+                break;
+        }
     }
 
     /// <summary>
@@ -80,6 +103,12 @@ public class Enemy : MonoBehaviour
         _exp = _data.ExpReward;
 
         _state = EnemyState.Chasing;
+        _attackTimer = 0f;
+
+        //if (_animator != null)
+        //{
+        //    _animator.SetBool(AnimIsAttacking, false);
+        //}
 
         if (targetCore != null)
         {
@@ -116,6 +145,53 @@ public class Enemy : MonoBehaviour
 
         transform.position += moveDir * (_currentMoveSpeed * Time.deltaTime);
     }
+
+    #region 공격 관련
+    /// <summary>
+    /// 기지 접촉 시 1초마다 애니메이션 트리거 및 데미지 부여
+    /// </summary>
+    private void HandleCoreAttack()
+    {
+        _attackTimer += Time.deltaTime;
+
+        if (_attackTimer >= _attackInterval)
+        {
+            _attackTimer = 0f;
+
+            if (_animator != null)
+            {
+                _animator.SetTrigger(AnimAttackTrigger);
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Core") && _state == EnemyState.Chasing)
+        {
+            _state = EnemyState.AttackCore;
+            _attackTimer = _attackInterval;
+
+            if (_animator != null)
+            {
+                _animator.SetBool(AnimIsAttacking, true);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Core") && _state == EnemyState.AttackCore)
+        {
+            _state = EnemyState.Chasing;
+
+            if (_animator != null)
+            {
+                _animator.SetBool(AnimIsAttacking, false);
+            }
+        }
+    }
+    #endregion
 
     /// <summary>
     /// Enemy의 체력이 감소하는 함수 (Bullet에서 호출)

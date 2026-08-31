@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider), typeof(Rigidbody))]
 public class BaseCore : MonoBehaviour
 {
     [Header("기본 정보")]
@@ -20,6 +19,16 @@ public class BaseCore : MonoBehaviour
     [SerializeField] private Transform _weaponHolder;
     private readonly List<Weapon> _equippedWeapons = new List<Weapon>();
 
+    [Header("시각 연출 및 애니메이터")]
+    [SerializeField] private Animator _animator;
+
+    private static readonly int AnimDamaged = Animator.StringToHash("Damaged");
+    private static readonly int AnimAttack = Animator.StringToHash("Attack");
+    private static readonly int AnimLevelUp = Animator.StringToHash("LevelUp");
+
+    private float _damageVisualTimer = 0f;
+    private const float DamageVisualInterval = 0.2f; // 지속 피격 시 애니메이션 너무 자주 튀는 것 방지
+
     [Header("오브젝트 연결")]
     [SerializeField] private Transform[] _towerSpawnPoints = new Transform[4];
     private Tower[] _equippedTowers = new Tower[4];
@@ -34,6 +43,13 @@ public class BaseCore : MonoBehaviour
     public float MaxExp => _maxExp;
     public IReadOnlyList<Weapon> EquipWeapons => _equippedWeapons;
 
+    private void Awake()
+    {
+        if (_animator == null)
+        {
+            _animator = GetComponentInChildren<Animator>();
+        }
+    }
     private void Start()
     {
         InitCore();
@@ -202,6 +218,12 @@ public class BaseCore : MonoBehaviour
         _maxHp += 10;
         _currentHp = Mathf.Min(_currentHp + 10, _maxHp);
         _maxExp = GetRequiredExp(_level);
+
+        if (_animator != null)
+        {
+            _animator.SetTrigger(AnimLevelUp);
+        }
+
         // Levelup 스크립트 구현 후 연결
     }
 
@@ -238,16 +260,26 @@ public class BaseCore : MonoBehaviour
             Die();
         }
 
+        _damageVisualTimer += Time.deltaTime;
+        if (_damageVisualTimer >= DamageVisualInterval)
+        {
+            _damageVisualTimer = 0f;
+            if (_animator != null)
+            {
+                _animator.SetTrigger(AnimDamaged);
+            }
+        }
+
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        if (!GameManager.Instance.IsLive || !collision.gameObject.CompareTag("Enemy"))
+        if (!GameManager.Instance.IsLive || !other.CompareTag("Enemy"))
         {
             return;
         }
 
-        if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        if (other.TryGetComponent<Enemy>(out var enemy))
         {
             TakeDamage(enemy.Damage * Time.deltaTime);
         }
@@ -260,4 +292,14 @@ public class BaseCore : MonoBehaviour
         // Gameover연결하기
     }
 
+    /// <summary>
+    /// 무기 발사 시 Weapon.cs 등에서 호출
+    /// </summary>
+    public void PlayAttackMotion()
+    {
+        if (_animator != null)
+        {
+            _animator.SetTrigger(AnimAttack);
+        }
+    }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Core
   - Tower
   - KillZone
+  - Map
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Core
   - Bullet
   - Tower
-  - 
+  - Map
   - 
   - 
   - 

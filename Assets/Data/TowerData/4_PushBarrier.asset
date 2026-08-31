@@ -18,7 +18,7 @@ MonoBehaviour:
   _towerDescription: "\uC804\uBC29 \uBD80\uCC44\uAF34/\uAD00\uD1B5 \uCDA9\uACA9\uD30C\r\n(\uC804\uBC29
     \uC801 \uBB34\uB9AC \uC77C\uAD04 \uB109\uBC31)"
   _cooldown: 2.8
-  _range: 7
+  _range: 27
   _subDamage: 4
   _projectileSpeed: 12
   _slowRatio: 0

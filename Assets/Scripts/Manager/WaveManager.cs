@@ -94,11 +94,11 @@ public class WaveManager : MonoBehaviour
             {
                 if (selectedEnemy.Type == EnemyDataSO.EnemyType.Cluster)
                 {
-                    GameManager.Instance.Spawner.SpawnClusters(selectedEnemy.EnemyPoolIndex);
+                    GameManager.Instance.Spawner.SpawnClusters(selectedEnemy);
                 }
                 else
                 {
-                    GameManager.Instance.Spawner.SpawnEnemy(selectedEnemy.EnemyPoolIndex);
+                    GameManager.Instance.Spawner.SpawnEnemy(selectedEnemy);
                 }
             }
         }

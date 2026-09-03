@@ -10,6 +10,9 @@ public class Spawner : MonoBehaviour
     [Header("클러스터 소환 시 배치 간격")]
     [SerializeField] private float _clusterGridSpacing = 0.5f;
 
+    [Header("분열 시 기본 소환용 스카우트 데이터")]
+    [SerializeField] private EnemyDataSO _defaultScouterData;
+
     private void Awake()
     {
         _spawnPoints = GetComponentsInChildren<Transform>();
@@ -18,8 +21,8 @@ public class Spawner : MonoBehaviour
     /// <summary>
     /// 기본적인 적 소환 메서드
     /// </summary>
-    /// <param name="poolIndex"></param>
-    public void SpawnEnemy(int poolIndex)
+    /// <param name="enemyData"></param>
+    public void SpawnEnemy(EnemyDataSO enemyData)
     {
         if (_spawnPoints == null || _spawnPoints.Length == 0)
         {
@@ -27,24 +30,43 @@ public class Spawner : MonoBehaviour
         }
 
         Transform point = _spawnPoints[Random.Range(1, _spawnPoints.Length)];   // Spawner 스크립트가 붙은 자기자신을 제위하고 자식으로 있는 spawnPoint들에만 소환하게 하기 위해 인덱스를 1부터 시작
-        GameObject enemy = GameManager.Instance.Pool.GetObjFromPool(poolIndex);
-        enemy.transform.position = point.position; 
+        GameObject enemyObj = GameManager.Instance.Pool.GetObjFromPool(enemyData.EnemyPoolIndex);
+
+        if (enemyObj != null)
+        {
+            enemyObj.transform.position = point.position;
+            enemyObj.transform.localScale = Vector3.one;
+
+            if (enemyObj.TryGetComponent<Enemy>(out var enemy))
+            {
+                Transform coreTarget = GameManager.Instance.Core != null ? GameManager.Instance.Core.transform : null;
+                enemy.InitEnemy(enemyData, coreTarget);
+            }
+        }
+        
     }
 
     /// <summary>
     /// 디바이드 몬스터가 죽었을 때 그 자리에 두체의 스카우터 소환용 메서드
     /// </summary>
-    /// <param name="scouterPoolIndex"></param>
-    public void SpawnDividedScouters(int scouterPoolIndex, Vector3 deathPos)
+    /// <param name="scouterData"></param>
+    public void SpawnDividedScouters(Vector3 deathPos)
     {
+        Transform coreTarget = GameManager.Instance.Core != null ? GameManager.Instance.Core.transform : null;
+
         for (int i = 0; i < 2; i++)
         {
-            GameObject scouterObj = GameManager.Instance.Pool.GetObjFromPool(scouterPoolIndex);
+            GameObject scouterObj = GameManager.Instance.Pool.GetObjFromPool(_defaultScouterData.EnemyPoolIndex);
 
             if (scouterObj != null)
             {
-                Vector2 randomOffset = Random.insideUnitCircle * 0.35f;
-                scouterObj.transform.position = new Vector3(deathPos.x + randomOffset.x, 0f, deathPos.z + randomOffset.y);
+                scouterObj.transform.position = new Vector3(deathPos.x + -3f + i * 6f, 5f, deathPos.z);
+                scouterObj.transform.localScale = Vector3.one;
+
+                if (scouterObj.TryGetComponent<Enemy>(out var enemy))
+                {
+                    enemy.InitEnemy(_defaultScouterData, coreTarget);
+                }
             }
         }
     }
@@ -53,7 +75,7 @@ public class Spawner : MonoBehaviour
     /// 9쌍의 클러스터가 소환되기 위한 메서드
     /// </summary>
     /// <param name="poolIndex"></param>
-    public void SpawnClusters(int clusterPoolIndex)
+    public void SpawnClusters(EnemyDataSO clusterData)
     {
         if (_spawnPoints == null || _spawnPoints.Length == 0)
         {
@@ -75,11 +97,17 @@ public class Spawner : MonoBehaviour
             Vector3 localOffset = new Vector3(col * _clusterGridSpacing, 0f, row * _clusterGridSpacing);
             Vector3 worldSpawnPos = point.position + (lookRotation * localOffset);
 
-            GameObject clusterObj = GameManager.Instance.Pool.GetObjFromPool(clusterPoolIndex);
+            GameObject clusterObj = GameManager.Instance.Pool.GetObjFromPool(clusterData.EnemyPoolIndex);
 
             if (clusterObj != null)
             {
                 clusterObj.transform.position = worldSpawnPos;
+                clusterObj.transform.localScale = Vector3.one;
+
+                if (clusterObj.TryGetComponent<Enemy>(out var enemy))
+                {
+                    enemy.InitEnemy(clusterData, corePos);
+                }
             }
         }
     }

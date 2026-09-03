@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider), typeof(Rigidbody))]
@@ -32,8 +30,13 @@ public class Enemy : MonoBehaviour
     [Header("공격 모션")]
     [SerializeField] private float _attackInterval = 1.0f;
     [SerializeField] private Animator _animator;
+    [Tooltip("사망 애니메이션 재생 후 풀 반환까지 대기 시간 (초)")]
+    [SerializeField] private float _deathAnimDuration = 0.35f;
+
     private static readonly int AnimIsAttacking = Animator.StringToHash("isAttacking");
     private static readonly int AnimAttackTrigger = Animator.StringToHash("Attack");
+    private static readonly int AnimDamagedTrigger = Animator.StringToHash("Damaged");
+    private static readonly int AnimDieTrigger = Animator.StringToHash("Die");
 
     [Header("디바이드 분열 설정")]
     [Tooltip("분열 시 소환할 스카우트(▲)의 풀 인덱스")]
@@ -63,6 +66,11 @@ public class Enemy : MonoBehaviour
     }
     private void OnEnable()
     {
+        if (_coll != null)
+        {
+            _coll.enabled = true;
+        }
+
         if (_data != null)
         {
             InitEnemy(_data, _mainCore);
@@ -105,10 +113,20 @@ public class Enemy : MonoBehaviour
         _state = EnemyState.Chasing;
         _attackTimer = 0f;
 
-        //if (_animator != null)
-        //{
-        //    _animator.SetBool(AnimIsAttacking, false);
-        //}
+        if (_animator != null)
+        {
+            _animator.SetBool(AnimIsAttacking, false);
+            _animator.ResetTrigger(AnimAttackTrigger);
+            _animator.ResetTrigger(AnimDamagedTrigger);
+            _animator.ResetTrigger(AnimDieTrigger);
+
+            _animator.Play("Idle(Move)", 0, 0f);
+            _animator.Update(0f);
+
+            _animator.transform.localPosition = Vector3.zero;
+            _animator.transform.localRotation = Quaternion.identity;
+            _animator.transform.localScale = Vector3.one;
+        }
 
         if (targetCore != null)
         {
@@ -132,7 +150,6 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        // 추후에 메인 코어 모델링 후 위치 제대로 잡기!!
         Vector3 targetPos = _mainCore.position;
         targetPos.y = transform.position.y;
 
@@ -141,6 +158,11 @@ public class Enemy : MonoBehaviour
         if (_state == EnemyState.Confused)
         {
             moveDir = -moveDir;
+        }
+
+        if (moveDir != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveDir);
         }
 
         transform.position += moveDir * (_currentMoveSpeed * Time.deltaTime);
@@ -160,6 +182,7 @@ public class Enemy : MonoBehaviour
 
             if (_animator != null)
             {
+                _animator.SetBool(AnimIsAttacking, true);
                 _animator.SetTrigger(AnimAttackTrigger);
             }
         }
@@ -208,8 +231,28 @@ public class Enemy : MonoBehaviour
 
         if (_currentHP <= 0)
         {
-            Die();
+            _state = EnemyState.Dead;
+
+            if (_animator != null)
+            {
+                _animator.SetBool(AnimIsAttacking, false);
+                _animator.SetTrigger(AnimDieTrigger);
+            }
+
+            if (_data != null && _data.Type == EnemyDataSO.EnemyType.Divide)
+            {
+                GameManager.Instance.Spawner.SpawnDividedScouters(transform.position);
+            }
+
+            GameManager.Instance.Core.GetExp(_exp);
+
+            if (GameManager.Instance.Wave != null)
+            {
+                GameManager.Instance.Wave.OnEnemyKilled(this);
+            }
         }
+
+        _animator.SetTrigger(AnimDamagedTrigger);
     }
 
     // 각 타워 or 무기에서 관리
@@ -258,6 +301,12 @@ public class Enemy : MonoBehaviour
     private IEnumerator ConfusionRoutine(float duration)
     {
         _state = EnemyState.Confused;
+
+        if (_animator != null)
+        {
+            _animator.SetBool(AnimIsAttacking, false);
+        }
+
         yield return new WaitForSeconds(duration);
         if (_state == EnemyState.Confused)
         {
@@ -287,6 +336,12 @@ public class Enemy : MonoBehaviour
     private IEnumerator StunRoutine(float duration)
     {
         _state = EnemyState.Stunned;
+
+        if (_animator != null)
+        {
+            _animator.SetBool(AnimIsAttacking, false);
+        }
+
         yield return new WaitForSeconds(duration);
         if (_state == EnemyState.Stunned)
         {
@@ -307,29 +362,14 @@ public class Enemy : MonoBehaviour
             dirVec.y = 0f;
 
             _rb.AddForce(dirVec.normalized * force, ForceMode.Impulse);
+            _state = EnemyState.Chasing;
+
+            if (_animator != null)
+            {
+                _animator.SetBool(AnimIsAttacking, false);
+            }
         }
     }
 
     #endregion
-
-
-    private void Die()
-    {
-        _state = EnemyState.Dead;
-
-        if (_data != null && _data.Type == EnemyDataSO.EnemyType.Divide)
-        {
-            GameManager.Instance.Spawner.SpawnDividedScouters(_scouterPoolIndex, transform.position);
-        }
-        
-        GameManager.Instance.Core.GetExp(_exp);
-
-        if (GameManager.Instance.Wave != null)
-        {
-            GameManager.Instance.Wave.OnEnemyKilled(this);
-        }
-
-        gameObject.SetActive(false);
-    }
-
 }

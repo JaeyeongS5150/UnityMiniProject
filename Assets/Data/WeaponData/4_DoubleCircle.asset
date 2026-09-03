@@ -26,7 +26,7 @@ MonoBehaviour:
   _levelDataArray:
   - damage: 15
     fireRate: 1.8
-    range: 27
+    range: 47
     projectileSpeed: 9
     projectileCount: 1
     projectileScale: 1
@@ -40,7 +40,7 @@ MonoBehaviour:
     levelDescription: "\uCC29\uD0C4 \uC2DC \uBC18\uACBD 1.8 \uB0B4 \uAD11\uC5ED \uD3ED\uBC1C"
   - damage: 22
     fireRate: 1.7
-    range: 27.5
+    range: 47.5
     projectileSpeed: 9
     projectileCount: 1
     projectileScale: 1
@@ -55,7 +55,7 @@ MonoBehaviour:
       \uC18C\uD3ED \uC99D\uAC00"
   - damage: 30
     fireRate: 1.6
-    range: 28
+    range: 48
     projectileSpeed: 9
     projectileCount: 1
     projectileScale: 1
@@ -70,7 +70,7 @@ MonoBehaviour:
       \uD655\uC7A5"
   - damage: 42
     fireRate: 1.4
-    range: 28.5
+    range: 48.5
     projectileSpeed: 9
     projectileCount: 1
     projectileScale: 1
@@ -84,7 +84,7 @@ MonoBehaviour:
     levelDescription: "\uD3ED\uBC1C \uB370\uBBF8\uC9C0 +12, \uCFE8\uB2E4\uC6B4 \uB2E8\uCD95"
   - damage: 60
     fireRate: 1.2
-    range: 29
+    range: 49
     projectileSpeed: 9
     projectileCount: 1
     projectileScale: 1

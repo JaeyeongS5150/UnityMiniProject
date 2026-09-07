@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: 1_OriginalCircle
   m_EditorClassIdentifier: 
   _weaponType: 0
-  _weaponName: "\uB3C4\uD2B8 \uC2A4\uD2B8\uB9BC"
-  _weaponIcon: {fileID: 0}
+  _weaponName: "\uC624\uB9AC\uC9C0\uB110 \uC11C\uD074"
+  _weaponIcon: {fileID: 21300000, guid: add7fdbd60a428e488fc6a904c004756, type: 3}
   _weaponDescription: "\uB2E8\uBC1C \uC0AC\uACA9\uC801\uC911 \uC2DC \uC989\uC2DC
     \uC18C\uBA78\uD558\uB294 \uAC00\uC7A5 \uD45C\uC900\uC801\uC778 \uACF5\uACA9"
   _bulletPoolIndex: 0
   _headPoolIndex: 0
   _bodyPoolIndex: 0
   _tailPoolIndex: 0
-  _projectilePrefab: {fileID: 0}
+  _projectilePrefab: {fileID: 1650271430242364822, guid: 47b0ecc3c41c928498c7b8f53adc0f43, type: 3}
   _levelDataArray:
   - damage: 10
     fireRate: 0.8

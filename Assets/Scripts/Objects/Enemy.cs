@@ -30,17 +30,11 @@ public class Enemy : MonoBehaviour
     [Header("공격 모션")]
     [SerializeField] private float _attackInterval = 1.0f;
     [SerializeField] private Animator _animator;
-    [Tooltip("사망 애니메이션 재생 후 풀 반환까지 대기 시간 (초)")]
-    [SerializeField] private float _deathAnimDuration = 0.35f;
 
     private static readonly int AnimIsAttacking = Animator.StringToHash("isAttacking");
     private static readonly int AnimAttackTrigger = Animator.StringToHash("Attack");
     private static readonly int AnimDamagedTrigger = Animator.StringToHash("Damaged");
     private static readonly int AnimDieTrigger = Animator.StringToHash("Die");
-
-    [Header("디바이드 분열 설정")]
-    [Tooltip("분열 시 소환할 스카우트(▲)의 풀 인덱스")]
-    [SerializeField] private int _scouterPoolIndex = 9;
 
     private Rigidbody _rb;
     private Collider _coll;

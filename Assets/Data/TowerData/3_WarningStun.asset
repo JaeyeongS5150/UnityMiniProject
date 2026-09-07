@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ccType: 2
   _towerName: "\uC6CC\uB2DD \uC2A4\uD134"
-  _towerIcon: {fileID: 0}
+  _towerIcon: {fileID: 21300000, guid: d0c834233f20f484ba9934d262d933a9, type: 3}
   _towerDescription: "\uC6D0\uD615 \uBC14\uB2E5 \uACBD\uACE0 \uC7A5\uD310\r\n(0.5\uCD08
     \uD6C4 \uBC18\uACBD \uB0B4 \uAD11\uC5ED \uAE30\uC808)"
   _cooldown: 4
@@ -27,5 +27,5 @@ MonoBehaviour:
   _stunAreaRadius: 3.5
   _warningDelay: 0.5
   _bulletPoolIndex: 17
-  _towerPrefab: {fileID: 4109334231628789809, guid: 72bdf9a7fb9e4224d989daadc4073341, type: 3}
-  _effectPrefab: {fileID: 0}
+  _towerPrefab: {fileID: 3552838801481479206, guid: 1b650b4d25d724645a772828bab3013d, type: 3}
+  _effectPrefab: {fileID: 7796530736737319055, guid: 029eb2f75ef4864498773db36905d814, type: 3}

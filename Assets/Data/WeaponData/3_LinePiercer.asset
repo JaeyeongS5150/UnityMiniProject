@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _weaponType: 2
   _weaponName: "\uB77C\uC778 \uD53C\uC5B4\uC11C"
-  _weaponIcon: {fileID: 0}
+  _weaponIcon: {fileID: 21300000, guid: 613d74a67f5a99446bda17f35c279a90, type: 3}
   _weaponDescription: "\uC9C1\uC120 \uAD00\uD1B5\uBAA8\uB4E0 \uC801\uC744 \uB6AB\uACE0
     \uC9C0\uB098\uAC00\uBA70 \uACBD\uB85C\uC0C1\uC758 \uC801 \uC804\uCCB4 \uD0C0\uACA9"
   _bulletPoolIndex: 2
   _headPoolIndex: 2
   _bodyPoolIndex: 3
   _tailPoolIndex: 4
-  _projectilePrefab: {fileID: 0}
+  _projectilePrefab: {fileID: 9169669017354179813, guid: 3f626351e97605249a689c9f6aa6ed13, type: 3}
   _levelDataArray:
   - damage: 12
     fireRate: 1.5

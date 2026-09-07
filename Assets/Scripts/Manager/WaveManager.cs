@@ -209,9 +209,15 @@ public class WaveManager : MonoBehaviour
 
         int unlockedSlotIndex = (_wave <= 4) ? (_wave - 1) : -1;
 
-        // 보스 승리 후 리워드 ui 및 메서드 호출
-
-        ProceedToNextWave();
+        if (unlockedSlotIndex != -1 && GameManager.Instance != null && GameManager.Instance.LevelUp != null)
+        {
+            GameManager.Instance.LevelUp.OpenWaveClearReward(unlockedSlotIndex);
+        }
+        else
+        {
+            // 4개 슬롯이 모두 채워진 이후 라운드는 보상 선택 없이 다음 웨이브 진행
+            ProceedToNextWave();
+        }
     }
 
     /// <summary>

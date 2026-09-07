@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ccType: 3
   _towerName: "\uD478\uC26C \uBCA0\uB9AC\uC5B4"
-  _towerIcon: {fileID: 0}
+  _towerIcon: {fileID: 21300000, guid: ea0a66a6443a2344fa926911203d2c0a, type: 3}
   _towerDescription: "\uC804\uBC29 \uBD80\uCC44\uAF34/\uAD00\uD1B5 \uCDA9\uACA9\uD30C\r\n(\uC804\uBC29
     \uC801 \uBB34\uB9AC \uC77C\uAD04 \uB109\uBC31)"
   _cooldown: 2.8
-  _range: 27
+  _range: 37
   _subDamage: 4
   _projectileSpeed: 12
   _slowRatio: 0
@@ -27,5 +27,5 @@ MonoBehaviour:
   _stunAreaRadius: 0
   _warningDelay: 0
   _bulletPoolIndex: 18
-  _towerPrefab: {fileID: 4109334231628789809, guid: dcdc9fe4685137941b782b30db7f1d90, type: 3}
-  _effectPrefab: {fileID: 0}
+  _towerPrefab: {fileID: 6173301603939030391, guid: cabebd10c30844e46a6b2b414eda33c2, type: 3}
+  _effectPrefab: {fileID: 8025404850316320855, guid: 7130539a4e9414b47aaaea4c08074bad, type: 3}

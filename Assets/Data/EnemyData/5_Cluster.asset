@@ -14,17 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyType: 4
   _enemyName: "\uD074\uB7EC\uC2A4\uD130"
-  _enemyIcon: {fileID: 0}
+  _enemyIcon: {fileID: 21300000, guid: 74f650f91f61f1241b411bf7f9cfc848, type: 3}
   _enemyDescription: "\uAD70\uC9D1\uD615: 9\uB9C8\uB9AC \uBB36\uC74C \uC2A4\uD3F0.
     \uCCB4\uC778 \uCF54\uB4DC/\uC2A4\uD50C\uB798\uC2DC \uB300\uC751"
   _maxHP: 3
   _moveSpeed: 2.2
   _damageToCore: 1
   _expReward: 0
-  _spawnCost: 3
   _splitCount: 2
   _dividedPrefab: {fileID: 0}
   _clusterCount: 9
   _ghostTime: 0.3
   _enemyPoolIndex: 13
-  _enemyPrefab: {fileID: 0}
+  _enemyPrefab: {fileID: 3118822784122122601, guid: f94d944a733b77141ba52de43c29e43f, type: 3}

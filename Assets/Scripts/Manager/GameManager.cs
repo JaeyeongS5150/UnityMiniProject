@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PoolManager _pool;
     [SerializeField] private WaveManager _wave;
     [SerializeField] private Spawner _spawner;
+    [SerializeField] private LevelUp _levelUp;
 
     #region 프로퍼티
     public bool IsLive => _isLive;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     public PoolManager Pool => _pool;
     public WaveManager Wave => _wave;
     public Spawner Spawner => _spawner;
+    public LevelUp LevelUp => _levelUp;
 
     #endregion
 
@@ -111,16 +113,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void GamePause()
+    public void GamePause()
     {
         _isLive = false;
         Time.timeScale = 0f;
     }
 
-    private void GameResume()
+    public void GameResume()
     {
         _isLive = true;
-        Time.timeScale = 1f;
+        Time.timeScale = _gameSpeeds[_currentSpeedIndex];
     }
 
     public void GameOver()

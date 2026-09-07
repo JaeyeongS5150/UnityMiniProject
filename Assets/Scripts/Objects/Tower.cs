@@ -8,13 +8,25 @@ public class Tower : MonoBehaviour
     [Header("데이터 연결")]
     [SerializeField] private TowerDataSO _data;
     [SerializeField] private Transform _firePoint;
-    
+
+    [Header("시각 연출 및 애니메이터")]
+    [SerializeField] private Animator _animator;
+
+    private static readonly int AnimAttack = Animator.StringToHash("Attack");
+
     private Scanner _scanner;
     private float _timer = 0f;
+
+    public TowerDataSO Data => _data;
 
     private void Awake()
     {
         _scanner = GetComponent<Scanner>();
+
+        if (_animator == null)
+        {
+            _animator = GetComponentInChildren<Animator>();
+        }
     }
 
     private void Update()
@@ -71,6 +83,11 @@ public class Tower : MonoBehaviour
     {
         Transform spawnPos = _firePoint != null ? _firePoint : transform;
         Transform target = _scanner.NearestTarget;
+
+        if (_animator != null)
+        {
+            _animator.SetTrigger(AnimAttack);
+        }
 
         switch (_data.Type)
         {

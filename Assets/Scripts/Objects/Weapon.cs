@@ -78,6 +78,13 @@ public class Weapon : MonoBehaviour
         Transform target = _scanner.NearestTarget;
         var stat = _data.GetLevelData(_level);
 
+        float finalFireRate = stat.fireRate;
+
+        if (GameManager.Instance != null && GameManager.Instance.Core != null)
+        {
+            finalFireRate *= GameManager.Instance.Core.BonusFireRate;
+        }
+
         _fireTimer += Time.deltaTime;
 
         if (_streamRoutine == null && target != null && _fireTimer >= stat.fireRate)
@@ -88,6 +95,12 @@ public class Weapon : MonoBehaviour
             if (GameManager.Instance != null && GameManager.Instance.Core != null)
             {
                 GameManager.Instance.Core.PlayAttackMotion();
+            }
+
+            float finalDamage = stat.damage;
+            if (GameManager.Instance != null && GameManager.Instance.Core != null)
+            {
+                finalDamage += GameManager.Instance.Core.BonusDamage;
             }
 
             switch (_data.Type)

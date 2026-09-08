@@ -34,7 +34,7 @@ MonoBehaviour:
     burstCount: 0
     burstInterval: 0
     chainCount: 2
-    chainRadius: 2.5
+    chainRadius: 25
     returnDelay: 0
     levelDescription: "\uC801 \uD0C0\uACA9 \uC2DC \uC8FC\uBCC0 \uC801 2\uCCB4\uB85C
       \uC5F0\uC1C4 \uC804\uC774"
@@ -49,7 +49,7 @@ MonoBehaviour:
     burstCount: 0
     burstInterval: 0
     chainCount: 3
-    chainRadius: 2.8
+    chainRadius: 25
     returnDelay: 0
     levelDescription: "\uB370\uBBF8\uC9C0 +4, \uC804\uC774 \uD69F\uC218 +1 (\uCD1D
       3\uCCB4)"
@@ -64,7 +64,7 @@ MonoBehaviour:
     burstCount: 0
     burstInterval: 0
     chainCount: 4
-    chainRadius: 3.2
+    chainRadius: 30
     returnDelay: 0
     levelDescription: "\uB370\uBBF8\uC9C0 +6, \uC804\uC774 \uD0D0\uC0C9 \uBC18\uACBD
       \uD655\uC7A5"
@@ -79,7 +79,7 @@ MonoBehaviour:
     burstCount: 0
     burstInterval: 0
     chainCount: 5
-    chainRadius: 3.5
+    chainRadius: 30
     returnDelay: 0
     levelDescription: "\uB370\uBBF8\uC9C0 +8, \uC804\uC774 \uD69F\uC218 +1 (\uCD1D
       5\uCCB4)"
@@ -94,7 +94,7 @@ MonoBehaviour:
     burstCount: 0
     burstInterval: 0
     chainCount: 8
-    chainRadius: 4.5
+    chainRadius: 40
     returnDelay: 0
     levelDescription: "[Max] 8\uD68C \uC5F0\uC1C4 \uC804\uC774, \uAD11\uBC94\uC704
       \uC77C\uAD04 \uD0C0\uACA9"

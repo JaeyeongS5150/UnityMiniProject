@@ -65,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: f8db6cc7bb2998a47b7cb08e5d5baa38, type: 2}
   _firePoint: {fileID: 0}
+  _animator: {fileID: 8259402140779656723}
 --- !u!1001 &5523085889417853318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,7 +143,7 @@ Animator:
   m_GameObject: {fileID: 4640001240790729943}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 86a7facfb06f44d42aec0fa276d4b413, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

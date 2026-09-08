@@ -72,7 +72,7 @@ PrefabInstance:
       addedObject: {fileID: 7442625231369403503}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4c357dfcca4310d438800f2e8acbcc57, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -5591672882288814509}
+      addedObject: {fileID: -9174070422667807462}
   m_SourcePrefab: {fileID: 100100000, guid: 4c357dfcca4310d438800f2e8acbcc57, type: 3}
 --- !u!1 &8643154913183012949 stripped
 GameObject:
@@ -127,49 +127,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.1, y: 0.5, z: 4.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!144 &-5591672882288814509
-CharacterJoint:
+--- !u!114 &-9174070422667807462
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8643154913183012949}
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0.25000715, z: 0}
-  m_Axis: {x: 1, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  serializedVersion: 2
-  m_SwingAxis: {x: 0, y: 1, z: 0}
-  m_TwistLimitSpring:
-    spring: 0
-    damper: 0
-  m_LowTwistLimit:
-    limit: -20
-    bounciness: 0
-    contactDistance: 0
-  m_HighTwistLimit:
-    limit: 70
-    bounciness: 0
-    contactDistance: 0
-  m_SwingLimitSpring:
-    spring: 0
-    damper: 0
-  m_Swing1Limit:
-    limit: 40
-    bounciness: 0
-    contactDistance: 0
-  m_Swing2Limit:
-    limit: 40
-    bounciness: 0
-    contactDistance: 0
-  m_EnableProjection: 0
-  m_ProjectionDistance: 0.1
-  m_ProjectionAngle: 180
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92f3cf2ebacbbf24e9c061449b46e81b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 0
+  _remainChains: 0
+  _chainRadius: 0
+  _speed: 0

@@ -21,7 +21,7 @@ MonoBehaviour:
   _range: 39
   _subDamage: 3
   _projectileSpeed: 14
-  _slowRatio: 0.4
+  _slowRatio: 0.5
   _duration: 3
   _knockbackForce: 0
   _stunAreaRadius: 0

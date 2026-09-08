@@ -10,11 +10,15 @@ public class BoomerangBullet : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _maxRange;
     [SerializeField] private float _returnDelay;
+    [SerializeField] private float _spinSpeed = 720f;
+
+    private bool _isFlying = false;
 
     private Transform _originTransform;
-
     private Rigidbody _rb;
     private Collider _coll;
+
+    public bool IsFlying => _isFlying;
 
     private void Awake()
     {
@@ -23,6 +27,11 @@ public class BoomerangBullet : MonoBehaviour
 
         _rb.useGravity = false;
         _coll.isTrigger = true;
+    }
+
+    private void Update()
+    {
+        transform.Rotate(Vector3.up, _spinSpeed * Time.deltaTime, Space.Self);
     }
 
     public void SetupBoomerang(float damage, Vector3 dir, float speed, float maxRange, float returnDelay, Transform origin)
@@ -39,6 +48,8 @@ public class BoomerangBullet : MonoBehaviour
     private IEnumerator BoomerangRoutine(Vector3 forwardDir)
     {
         float traveled = 0f;
+        _isFlying = true;
+
         while (traveled < _maxRange)
         {
             if (GameManager.Instance.IsLive)
@@ -69,6 +80,7 @@ public class BoomerangBullet : MonoBehaviour
             yield return null;
         }
 
+        _isFlying = false;
         gameObject.SetActive(false);
     }
 

@@ -76,8 +76,6 @@ public class WaveManager : MonoBehaviour
         _currentWaveKills = 0;
         _spawnTimer = 0f;
         _waveState = WaveState.Spawning;
-
-        // 추후에 UI랑 연결
     }
 
     private void HandleSpawning()

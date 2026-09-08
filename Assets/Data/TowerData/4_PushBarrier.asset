@@ -23,7 +23,7 @@ MonoBehaviour:
   _projectileSpeed: 12
   _slowRatio: 0
   _duration: 0.2
-  _knockbackForce: 7
+  _knockbackForce: 20
   _stunAreaRadius: 0
   _warningDelay: 0
   _bulletPoolIndex: 18

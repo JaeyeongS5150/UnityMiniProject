@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Scanner))]
@@ -7,6 +8,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] private WeaponDataSO _data;
     [SerializeField] private int _level = 1;
     [SerializeField] private Transform _firePoint;
+
+    private readonly List<BoomerangBullet> _activeBoomerangs = new List<BoomerangBullet>();
 
     private Scanner _scanner;
     private float _fireTimer = 0f;
@@ -106,32 +109,32 @@ public class Weapon : MonoBehaviour
             switch (_data.Type)
             {
                 case WeaponDataSO.WeaponType.OriginalCircle:
-                    FireOriginalCircle(spawnPoint, target, stat);
+                    FireOriginalCircle(spawnPoint, target, stat, finalDamage);
                     break;
                 case WeaponDataSO.WeaponType.DotStream:
-                    _streamRoutine = StartCoroutine(DotStreamRoutine(spawnPoint, target, stat));
+                    _streamRoutine = StartCoroutine(DotStreamRoutine(spawnPoint, target, stat, finalDamage));
                     break;
                 case WeaponDataSO.WeaponType.LinePiercer:
-                    _streamRoutine = StartCoroutine(LinePiercerStreamRoutine(spawnPoint, target, stat));
+                    _streamRoutine = StartCoroutine(LinePiercerStreamRoutine(spawnPoint, target, stat, finalDamage));
                     break;
                 case WeaponDataSO.WeaponType.DoubleCircle:
-                    FireDoubleCircle(spawnPoint, target, stat);
+                    FireDoubleCircle(spawnPoint, target, stat, finalDamage);
                     break;
                 case WeaponDataSO.WeaponType.HeavyCircle:
-                    FireHeavyCircle(spawnPoint, target, stat);
+                    FireHeavyCircle(spawnPoint, target, stat, finalDamage);
                     break;
                 case WeaponDataSO.WeaponType.ChainChord:
-                    FireChainChord(spawnPoint, target, stat);
+                    FireChainChord(spawnPoint, target, stat, finalDamage);
                     break;
                 case WeaponDataSO.WeaponType.Moonmerang:
-                    FireMoonMerang(spawnPoint, target, stat);
+                    FireMoonMerang(spawnPoint, target, stat, finalDamage);
                     break;
             }
         }
     }
 
     #region 각 무기별 발사 메서드
-    private void FireOriginalCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat)
+    private void FireOriginalCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
         float lifeTime = stat.range / stat.projectileSpeed;
         Vector3 dir = (target.position - spawnPoint.position);
@@ -147,7 +150,7 @@ public class Weapon : MonoBehaviour
 
             if (bulletObj.TryGetComponent<Bullet>(out var bullet))
             {
-                bullet.Setup(stat.damage, stat.pierceCount, dir, stat.projectileSpeed);
+                bullet.Setup(finalDamage, stat.pierceCount, dir, stat.projectileSpeed);
             }
         }
     }
@@ -159,7 +162,7 @@ public class Weapon : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="stat"></param>
     /// <returns></returns>
-    private IEnumerator DotStreamRoutine(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat)
+    private IEnumerator DotStreamRoutine(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
         int count = stat.burstCount;
         float interval = stat.burstInterval;
@@ -186,7 +189,7 @@ public class Weapon : MonoBehaviour
 
                 if (bulletObj.TryGetComponent<Bullet>(out var bullet))
                 {
-                    bullet.Setup(stat.damage, stat.pierceCount, dir, stat.projectileSpeed);
+                    bullet.Setup(finalDamage, stat.pierceCount, dir, stat.projectileSpeed);
                 }
             }
 
@@ -205,10 +208,10 @@ public class Weapon : MonoBehaviour
     /// <param name="target"></param>
     /// <param name="stat"></param>
     /// <returns></returns>
-    private IEnumerator LinePiercerStreamRoutine(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat)
+    private IEnumerator LinePiercerStreamRoutine(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
         float lifeTime = stat.range / stat.projectileSpeed;
-        float bodyInterval = 0.08f;
+        float bodyInterval = 0.1f;
 
         if (target != null)
         {
@@ -216,10 +219,10 @@ public class Weapon : MonoBehaviour
             dir.y = 0f;
             dir.Normalize();
 
-            SpawnLinePiercer(_data.HeadPoolIndex, spawnPoint.position, dir, stat, lifeTime);
+            SpawnLinePiercer(_data.HeadPoolIndex, spawnPoint.position, dir, stat, lifeTime, finalDamage);
         }
 
-        yield return new WaitForSeconds(bodyInterval);
+        yield return new WaitForSeconds(0.2f);
 
         while (true)
         {
@@ -248,7 +251,7 @@ public class Weapon : MonoBehaviour
             dir.y = 0f;
             dir.Normalize();
 
-            SpawnLinePiercer(_data.BodyPoolIndex, spawnPoint.position, dir, stat, lifeTime);
+            SpawnLinePiercer(_data.BodyPoolIndex, spawnPoint.position, dir, stat, lifeTime, finalDamage);
 
             yield return new WaitForSeconds(bodyInterval);
         }
@@ -264,12 +267,12 @@ public class Weapon : MonoBehaviour
             }
         }
 
-        SpawnLinePiercer(_data.TailPoolIndex, spawnPoint.position, lastDir, stat, lifeTime);
+        SpawnLinePiercer(_data.TailPoolIndex, spawnPoint.position, lastDir, stat, lifeTime, finalDamage);
 
         _streamRoutine = null;
     }
 
-    private void SpawnLinePiercer(int poolIndex, Vector3 pos, Vector3 dir, WeaponDataSO.WeaponLevelData stat, float lifeTime)
+    private void SpawnLinePiercer(int poolIndex, Vector3 pos, Vector3 dir, WeaponDataSO.WeaponLevelData stat, float lifeTime, float finalDamage)
     {
         GameObject bulletObj = GameManager.Instance.Pool.GetObjFromPool(poolIndex, lifeTime);
 
@@ -280,12 +283,12 @@ public class Weapon : MonoBehaviour
 
             if (bulletObj.TryGetComponent<Bullet>(out var bullet))
             {
-                bullet.Setup(stat.damage, stat.pierceCount,dir,stat.projectileSpeed);
+                bullet.Setup(finalDamage, stat.pierceCount,dir,stat.projectileSpeed);
             }
         }
     }
 
-    private void FireDoubleCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat)
+    private void FireDoubleCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
         float lifeTime = stat.range / stat.projectileSpeed;
         Vector3 dir = (target.position - spawnPoint.position);
@@ -301,12 +304,12 @@ public class Weapon : MonoBehaviour
 
             if (bulletObj.TryGetComponent<ExplosiveBullet>(out var explosiveBullet))
             {
-                explosiveBullet.SetupExplosive(stat.damage, dir, stat.projectileSpeed, stat.splashRadius);
+                explosiveBullet.SetupExplosive(finalDamage, dir, stat.projectileSpeed, stat.splashRadius);
             }
         }
     }
 
-    private void FireHeavyCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat)
+    private void FireHeavyCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
         float lifeTime = stat.range / stat.projectileSpeed;
         Vector3 dir = (target.position - spawnPoint.position);
@@ -325,12 +328,12 @@ public class Weapon : MonoBehaviour
 
             if (bulletObj.TryGetComponent<HeavyBullet>(out var heavyBullet))
             {
-                heavyBullet.SetupHeavy(stat.damage, dir, stat.projectileSpeed, 8f);
+                heavyBullet.SetupHeavy(finalDamage, dir, stat.projectileSpeed, 15f);
             }
         }
     }
 
-    private void FireChainChord(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat)
+    private void FireChainChord(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
         float lifeTime = stat.range / stat.projectileSpeed;
         Vector3 dir = (target.position - spawnPoint.position);
@@ -348,14 +351,24 @@ public class Weapon : MonoBehaviour
             {
                 int chainCount = stat.chainCount;
                 float chainRadius = stat.chainRadius;
-                chainBullet.SetupChain(stat.damage, dir, stat.projectileSpeed, chainCount, chainRadius);
+                chainBullet.SetupChain(finalDamage, dir, stat.projectileSpeed, chainCount, chainRadius);
             }
         }
     }
 
     // 관통하는 부메랑 형식이기 때문에 lifeTime으로만 SetActive(false)됨
-    private void FireMoonMerang(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat)
+    private void FireMoonMerang(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
+        for (int i = 0; i < _activeBoomerangs.Count; i++)
+        {
+            if (_activeBoomerangs[i] != null && _activeBoomerangs[i].IsFlying)
+            {
+                return;
+            }
+        }
+
+        _activeBoomerangs.Clear();
+
         Vector3 dir = (target.position - spawnPoint.position);
         dir.y = 0f;
         dir.Normalize();
@@ -366,11 +379,10 @@ public class Weapon : MonoBehaviour
         if (bulletObj != null)
         {
             bulletObj.transform.position = spawnPoint.position;
-            bulletObj.transform.rotation = Quaternion.LookRotation(dir);
 
             if (bulletObj.TryGetComponent<BoomerangBullet>(out var boomBullet))
             {
-                boomBullet.SetupBoomerang(stat.damage, dir, stat.projectileSpeed, stat.range, stat.returnDelay, spawnPoint);
+                boomBullet.SetupBoomerang(finalDamage, dir, stat.projectileSpeed, stat.range, stat.returnDelay, spawnPoint);
             }
         }
     }

@@ -90,7 +90,7 @@ public class Weapon : MonoBehaviour
 
         _fireTimer += Time.deltaTime;
 
-        if (_streamRoutine == null && target != null && _fireTimer >= stat.fireRate)
+        if (_streamRoutine == null && target != null && _fireTimer >= finalFireRate)
         {
             _fireTimer = 0f;
             Transform spawnPoint = _firePoint != null ? _firePoint : transform;
@@ -127,7 +127,7 @@ public class Weapon : MonoBehaviour
                     FireChainChord(spawnPoint, target, stat, finalDamage);
                     break;
                 case WeaponDataSO.WeaponType.Moonmerang:
-                    FireMoonMerang(spawnPoint, target, stat, finalDamage);
+                    _streamRoutine = StartCoroutine(MoonMerangRoutine(spawnPoint, target, stat, finalDamage));
                     break;
             }
         }
@@ -153,6 +153,8 @@ public class Weapon : MonoBehaviour
                 bullet.Setup(finalDamage, stat.pierceCount, dir, stat.projectileSpeed);
             }
         }
+
+        PlaySfxSafe(AudioManager.SFX.Shoot1);
     }
 
     /// <summary>
@@ -192,7 +194,7 @@ public class Weapon : MonoBehaviour
                     bullet.Setup(finalDamage, stat.pierceCount, dir, stat.projectileSpeed);
                 }
             }
-
+            PlaySfxSafe(AudioManager.SFX.Shoot2);
             yield return new WaitForSeconds(interval);
         }
         _streamRoutine = null;
@@ -286,6 +288,7 @@ public class Weapon : MonoBehaviour
                 bullet.Setup(finalDamage, stat.pierceCount,dir,stat.projectileSpeed);
             }
         }
+        PlaySfxSafe(AudioManager.SFX.Shoot1);
     }
 
     private void FireDoubleCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
@@ -307,6 +310,7 @@ public class Weapon : MonoBehaviour
                 explosiveBullet.SetupExplosive(finalDamage, dir, stat.projectileSpeed, stat.splashRadius);
             }
         }
+        PlaySfxSafe(AudioManager.SFX.HeavyShoot);
     }
 
     private void FireHeavyCircle(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
@@ -331,11 +335,18 @@ public class Weapon : MonoBehaviour
                 heavyBullet.SetupHeavy(finalDamage, dir, stat.projectileSpeed, 15f);
             }
         }
+        PlaySfxSafe(AudioManager.SFX.HeavyShoot);
     }
 
     private void FireChainChord(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
-        float lifeTime = stat.range / stat.projectileSpeed;
+        int chainCount = stat.chainCount;
+        float chainRadius = stat.chainRadius;
+
+        float initialTravelTime = stat.range / stat.projectileSpeed;
+        float chainTravelTime = (chainRadius / stat.projectileSpeed) * chainCount;
+        float lifeTime = initialTravelTime + chainTravelTime + 1.5f
+            ;
         Vector3 dir = (target.position - spawnPoint.position);
         dir.y = 0f;
         dir.Normalize();
@@ -349,33 +360,65 @@ public class Weapon : MonoBehaviour
 
             if (bulletObj.TryGetComponent<ChainBullet>(out var chainBullet))
             {
-                int chainCount = stat.chainCount;
-                float chainRadius = stat.chainRadius;
                 chainBullet.SetupChain(finalDamage, dir, stat.projectileSpeed, chainCount, chainRadius);
             }
         }
+        PlaySfxSafe(AudioManager.SFX.ChainChord);
     }
 
-    // 관통하는 부메랑 형식이기 때문에 lifeTime으로만 SetActive(false)됨
-    private void FireMoonMerang(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
+    private IEnumerator MoonMerangRoutine(Transform spawnPoint, Transform target, WeaponDataSO.WeaponLevelData stat, float finalDamage)
     {
-        for (int i = 0; i < _activeBoomerangs.Count; i++)
-        {
-            if (_activeBoomerangs[i] != null && _activeBoomerangs[i].IsFlying)
-            {
-                return;
-            }
-        }
-
-        _activeBoomerangs.Clear();
-
         Vector3 dir = (target.position - spawnPoint.position);
         dir.y = 0f;
         dir.Normalize();
 
-        float lifeTime = (stat.range / stat.projectileSpeed * 2.2f) + stat.returnDelay;
+        _activeBoomerangs.Clear();
 
+        int count = Mathf.Max(1, stat.projectileCount);
+        bool isMaxLevel = (_level >= _data.MaxLevel);
+
+        for (int i = 0; i < count; i++)
+        {
+            SpawnBoomerangBullet(spawnPoint, dir, stat, finalDamage);
+            if (count > 1)
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
+        }
+
+        if (isMaxLevel)
+        {
+            SpawnBoomerangBullet(spawnPoint, -dir, stat, finalDamage);
+        }
+
+        while (true)
+        {
+            bool isAnyFlying = false;
+            for (int i = 0; i < _activeBoomerangs.Count; i++)
+            {
+                if (_activeBoomerangs[i] != null && _activeBoomerangs[i].IsFlying)
+                {
+                    isAnyFlying = true;
+                    break;
+                }
+            }
+
+            if (!isAnyFlying)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+        _streamRoutine = null;
+    }
+
+    private void SpawnBoomerangBullet(Transform spawnPoint, Vector3 dir, WeaponDataSO.WeaponLevelData stat, float finalDamage)
+    {
+        float lifeTime = (stat.range / stat.projectileSpeed * 2.5f) + stat.returnDelay;
         GameObject bulletObj = GameManager.Instance.Pool.GetObjFromPool(_data.BulletPoolIndex, lifeTime);
+
         if (bulletObj != null)
         {
             bulletObj.transform.position = spawnPoint.position;
@@ -383,9 +426,19 @@ public class Weapon : MonoBehaviour
             if (bulletObj.TryGetComponent<BoomerangBullet>(out var boomBullet))
             {
                 boomBullet.SetupBoomerang(finalDamage, dir, stat.projectileSpeed, stat.range, stat.returnDelay, spawnPoint);
+                _activeBoomerangs.Add(boomBullet);
             }
         }
+        PlaySfxSafe(AudioManager.SFX.Shoot1);
     }
 
     #endregion
+
+    private void PlaySfxSafe(AudioManager.SFX sfx)
+    {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySfx(sfx);
+        }
+    }
 }

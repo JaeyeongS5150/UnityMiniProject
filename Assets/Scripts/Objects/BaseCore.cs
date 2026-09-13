@@ -8,8 +8,8 @@ public class BaseCore : MonoBehaviour
     [Header("기본 정보")]
     [SerializeField] private float _currentHp;
     [SerializeField] private float _maxHp = 100f;
-    [SerializeField] private int _currentExp = 0;
-    [SerializeField] private int _maxExp = 5;
+    [SerializeField] private float _currentExp = 0;
+    [SerializeField] private float _maxExp = 5;
     [SerializeField] private int _level = 1;
     [SerializeField] private int _kill = 0;
 
@@ -39,11 +39,16 @@ public class BaseCore : MonoBehaviour
     [SerializeField] private Transform[] _towerSpawnPoints = new Transform[4];
     private Tower[] _equippedTowers = new Tower[4];
 
+    [Header("피격 효과음 쿨다운")]
+    [SerializeField] private float _hitSoundCooldown = 0.15f;
+    private float _lastHitSoundTime = -1f;
+
     public int Level => _level;
     public float CurrentHp => _currentHp;
     public float MaxHp => _maxHp;
     public float CurrentExp => _currentExp;
     public float MaxExp => _maxExp;
+    public int TotalKills => _kill;
     public IReadOnlyList<Weapon> EquipWeapons => _equippedWeapons;
     public IReadOnlyList<Tower> EquipTowers => _equippedTowers;
     public float BonusDamage => _bonusDamage;
@@ -81,7 +86,7 @@ public class BaseCore : MonoBehaviour
 
     private void InitCore()
     {
-        _maxHp = 100;
+        _maxHp = 100f + MetaShopData.GetBonusMaxHp();
         _currentHp = _maxHp;
         _currentExp = 0;
         _kill = 0;
@@ -266,6 +271,8 @@ public class BaseCore : MonoBehaviour
 
         _currentHp = Mathf.Max(_currentHp - damage, 0);
 
+        PlayHitSound();
+
         if (_currentHp <= 0)
         {
             Die();
@@ -281,6 +288,19 @@ public class BaseCore : MonoBehaviour
             }
         }
 
+    }
+
+    private void PlayHitSound()
+    {
+        if (Time.unscaledTime - _lastHitSoundTime >= _hitSoundCooldown)
+        {
+            _lastHitSoundTime = Time.unscaledTime;
+
+            if (AudioManager.instance != null)
+            {
+                AudioManager.instance.PlaySfx(AudioManager.SFX.Hit);
+            }
+        }
     }
 
     /// <summary>
@@ -320,9 +340,15 @@ public class BaseCore : MonoBehaviour
 
     private void Die()
     {
-        GameManager.Instance.GameOver();
-        // 사망 애니메이션
-        // Gameover연결하기
+        if(AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySfx(AudioManager.SFX.GameOver);
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.GameOver();
+        }
     }
 
     /// <summary>

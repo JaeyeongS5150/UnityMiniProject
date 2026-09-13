@@ -104,8 +104,6 @@ MonoBehaviour:
   _state: 0
   _attackInterval: 1
   _animator: {fileID: 1382807325366525989}
-  _deathAnimDuration: 0.35
-  _scouterPoolIndex: 9
 --- !u!1001 &7305731441234268842
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,6 +166,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: def5f92108e34914d8278880282ad6db, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8620307931154334616}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: def5f92108e34914d8278880282ad6db, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3900135846475366191}
   m_SourcePrefab: {fileID: 100100000, guid: def5f92108e34914d8278880282ad6db, type: 3}
 --- !u!4 &7127392213651600705 stripped
 Transform:
@@ -212,3 +213,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd601a90c484c8e418e555c4cf091ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3900135846475366191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7611723115150110715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f06bc9e5f1b4f4a894def129312100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _visibleDuration: 2
+  _stealthAlpha: 0.2

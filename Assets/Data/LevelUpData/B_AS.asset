@@ -16,7 +16,7 @@ MonoBehaviour:
   _statBuffType: 2
   _weaponData: {fileID: 0}
   _towerData: {fileID: 0}
-  _buffName: 
-  _buffIcon: {fileID: 0}
-  _buffDescription: 
+  _buffName: "\uACF5\uACA9 \uC18D\uB3C4 \uC5C5!"
+  _buffIcon: {fileID: 21300000, guid: adf3612ffcf9212428b75d2676040e2f, type: 3}
+  _buffDescription: "\uACF5\uACA9\uC18D\uB3C4 +5%"
   _buffValue: 0.05

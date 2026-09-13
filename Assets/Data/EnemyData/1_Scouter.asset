@@ -18,7 +18,7 @@ MonoBehaviour:
   _enemyDescription: "\uAE30\uBCF8\uD615: \uCD08\uBC18 \uC6E8\uC774\uBE0C \uD45C\uC900
     \uC801. \uB2E8\uBC1C 1\uBC1C \uCEF7 \uAE30\uC900"
   _maxHP: 10
-  _moveSpeed: 2
+  _moveSpeed: 6
   _damageToCore: 1
   _expReward: 1
   _splitCount: 2

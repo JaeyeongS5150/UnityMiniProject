@@ -8,7 +8,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
 
     [Header("클러스터 소환 시 배치 간격")]
-    [SerializeField] private float _clusterGridSpacing = 0.5f;
+    [SerializeField] private float _clusterGridSpacing = 2f;
 
     [Header("분열 시 기본 소환용 스카우트 데이터")]
     [SerializeField] private EnemyDataSO _defaultScouterData;
@@ -40,7 +40,9 @@ public class Spawner : MonoBehaviour
             if (enemyObj.TryGetComponent<Enemy>(out var enemy))
             {
                 Transform coreTarget = GameManager.Instance.Core != null ? GameManager.Instance.Core.transform : null;
-                enemy.InitEnemy(enemyData, coreTarget);
+                int currentWave = GameManager.Instance.Wave.CurrentWave;
+
+                enemy.InitEnemy(enemyData, coreTarget, currentWave);
             }
         }
         
@@ -53,6 +55,7 @@ public class Spawner : MonoBehaviour
     public void SpawnDividedScouters(Vector3 deathPos)
     {
         Transform coreTarget = GameManager.Instance.Core != null ? GameManager.Instance.Core.transform : null;
+        int currentWave = GameManager.Instance.Wave.CurrentWave;
 
         for (int i = 0; i < 2; i++)
         {
@@ -65,7 +68,7 @@ public class Spawner : MonoBehaviour
 
                 if (scouterObj.TryGetComponent<Enemy>(out var enemy))
                 {
-                    enemy.InitEnemy(_defaultScouterData, coreTarget);
+                    enemy.InitEnemy(_defaultScouterData, coreTarget, currentWave);
                 }
             }
         }
@@ -88,6 +91,7 @@ public class Spawner : MonoBehaviour
         Vector3 dirToCore = (corePos.position - point.position).normalized;
         dirToCore.y = 0f;
         Quaternion lookRotation = Quaternion.LookRotation(dirToCore);
+        int currentWave = GameManager.Instance.Wave.CurrentWave;
 
         for (int i = 0; i < 9; i++)
         {
@@ -106,7 +110,7 @@ public class Spawner : MonoBehaviour
 
                 if (clusterObj.TryGetComponent<Enemy>(out var enemy))
                 {
-                    enemy.InitEnemy(clusterData, corePos);
+                    enemy.InitEnemy(clusterData, corePos, currentWave);
                 }
             }
         }
@@ -126,6 +130,8 @@ public class Spawner : MonoBehaviour
         }
         Transform point = _spawnPoints[Random.Range(1, _spawnPoints.Length)];
         GameObject bossObj = GameManager.Instance.Pool.GetObjFromPool(bossData.EnemyPoolIndex, -1f);
+        Transform coreTarget = GameManager.Instance.Core != null ? GameManager.Instance.Core.transform : null;
+        int currentWave = GameManager.Instance.Wave.CurrentWave;
 
         if (bossObj != null)
         {
@@ -134,7 +140,7 @@ public class Spawner : MonoBehaviour
 
             if (bossObj.TryGetComponent<Enemy>(out var enemy))
             {
-                enemy.InitEnemy(bossData, GameManager.Instance.Core != null ? GameManager.Instance.Core.transform : null);
+                enemy.InitEnemy(bossData, coreTarget, currentWave);
             }
         }
     }

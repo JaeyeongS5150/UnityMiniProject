@@ -17,11 +17,11 @@ MonoBehaviour:
   _enemyIcon: {fileID: 0}
   _enemyDescription: "3\uB77C\uC6B4\uB4DC \uBCF4\uC2A4"
   _maxHP: 1500
-  _moveSpeed: 0.8
+  _moveSpeed: 1.2
   _damageToCore: 20
   _expReward: 250
   _splitCount: 2
-  _dividedPrefab: {fileID: 0}
+  _dividedPrefab: {fileID: 2696241286395580847, guid: f8f2e1a55b8341245ba00c77f23b85df, type: 3}
   _clusterCount: 9
   _ghostTime: 0.3
   _enemyPoolIndex: 12

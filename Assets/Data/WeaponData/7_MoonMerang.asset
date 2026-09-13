@@ -57,7 +57,7 @@ MonoBehaviour:
     fireRate: 0.2
     range: 47.5
     projectileSpeed: 12
-    projectileCount: 1
+    projectileCount: 2
     projectileScale: 1
     pierceCount: 99
     splashRadius: 0
@@ -66,13 +66,13 @@ MonoBehaviour:
     chainCount: 0
     chainRadius: 0
     returnDelay: 0.1
-    levelDescription: "\uB370\uBBF8\uC9C0 +6, \uCCB4\uACF5 \uC2DC\uAC04 \uC18C\uD3ED
-      \uC99D\uAC00, \uD0C4\uC18D \uC99D\uAC00"
+    levelDescription: "\uB370\uBBF8\uC9C0 +6, \uD0C4\uC18D \uC99D\uAC00, \uD22C\uC0AC\uCCB4
+      +1"
   - damage: 28
     fireRate: 0.15
     range: 48
     projectileSpeed: 14
-    projectileCount: 1
+    projectileCount: 3
     projectileScale: 1
     pierceCount: 99
     splashRadius: 0
@@ -81,13 +81,13 @@ MonoBehaviour:
     chainCount: 0
     chainRadius: 0
     returnDelay: 0.05
-    levelDescription: "\uB370\uBBF8\uC9C0 +8, \uD68C\uC218 \uD6C4 \uB51C\uB808\uC774
-      \uB2E8\uCD95, \uD0C4\uC18D \uC99D\uAC00"
+    levelDescription: "\uB370\uBBF8\uC9C0 +8, \uD0C4\uC18D \uC99D\uAC00, \uD22C\uC0AC\uCCB4
+      +1"
   - damage: 40
     fireRate: 0.1
     range: 49
     projectileSpeed: 17
-    projectileCount: 1
+    projectileCount: 3
     projectileScale: 1
     pierceCount: 99
     splashRadius: 0

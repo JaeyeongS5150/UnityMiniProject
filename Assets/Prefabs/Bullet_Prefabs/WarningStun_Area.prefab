@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a83ace6adf28cbd40941a400330c4747, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 50c14b433a4daee42abc9452c6c62b07, type: 2}
     - target: {fileID: 919132149155446097, guid: a83ace6adf28cbd40941a400330c4747, type: 3}
       propertyPath: m_Name
       value: WarningStun_Area
@@ -101,7 +105,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 14
   m_CollisionDetection: 0
 --- !u!135 &193557185010444399
 SphereCollider:

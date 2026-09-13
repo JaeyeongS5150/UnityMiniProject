@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91d1bd3ff6c0e541868ddedc745b91e, type: 3}
+  m_Name: Boss_9Round_ClusterQueen II
+  m_EditorClassIdentifier: 
+  _enemyType: 4
+  _enemyName: "\uD074\uB7EC\uC2A4\uD130 \uD038 II"
+  _enemyIcon: {fileID: 0}
+  _enemyDescription: "9\uB77C\uC6B4\uB4DC \uBCF4\uC2A4"
+  _maxHP: 2800
+  _moveSpeed: 1.7
+  _damageToCore: 45
+  _expReward: 3500
+  _splitCount: 2
+  _dividedPrefab: {fileID: 0}
+  _clusterCount: 9
+  _ghostTime: 0.3
+  _enemyPoolIndex: 13
+  _enemyPrefab: {fileID: 0}

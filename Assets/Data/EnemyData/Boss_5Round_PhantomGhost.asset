@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Boss_5Round_PhantomGhost
   m_EditorClassIdentifier: 
   _enemyType: 5
-  _enemyName: 
+  _enemyName: "\uD32C\uD140 \uACE0\uC2A4\uD2B8"
   _enemyIcon: {fileID: 0}
-  _enemyDescription: 
+  _enemyDescription: "5\uB77C\uC6B4\uB4DC \uBCF4\uC2A4"
   _maxHP: 4600
-  _moveSpeed: 0.8
+  _moveSpeed: 1.5
   _damageToCore: 30
   _expReward: 700
   _splitCount: 2
   _dividedPrefab: {fileID: 0}
   _clusterCount: 9
-  _ghostTime: 0.3
+  _ghostTime: 2
   _enemyPoolIndex: 14
   _enemyPrefab: {fileID: 0}

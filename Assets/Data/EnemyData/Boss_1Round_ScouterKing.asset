@@ -17,7 +17,7 @@ MonoBehaviour:
   _enemyIcon: {fileID: 0}
   _enemyDescription: "1\uB77C\uC6B4\uB4DC \uBCF4\uC2A4"
   _maxHP: 320
-  _moveSpeed: 1
+  _moveSpeed: 1.5
   _damageToCore: 10
   _expReward: 50
   _splitCount: 2

@@ -107,13 +107,9 @@ public class WaveManager : MonoBehaviour
     /// </summary>
     private EnemyDataSO GetRandomEnemyFromConfig(RoundConfig config)
     {
-        if (config.availableEnemies == null || config.availableEnemies.Count == 0)
-        {
-            return null;
-        }
 
         // 무한 모드의 지정된 확률 비율 적용
-        if (_wave >= 11 && config.availableEnemies.Count >= 5)
+        if (_wave >= 11 && _infiniteEnemyPool != null && _infiniteEnemyPool.Count >= 5)
         {
             int rand = Random.Range(0, 100);
             if (rand < 40)
@@ -204,6 +200,9 @@ public class WaveManager : MonoBehaviour
     private void HandleBossVictory(RoundConfig config)
     {
         _waveState = WaveState.WaitingReward;
+
+        int earnedGold = Mathf.RoundToInt(config.bossReward * MetaShopData.GetBonusGoldMultiplier());
+        MetaShopData.PlayerGold += earnedGold;
 
         int unlockedSlotIndex = (_wave <= 4) ? (_wave - 1) : -1;
 

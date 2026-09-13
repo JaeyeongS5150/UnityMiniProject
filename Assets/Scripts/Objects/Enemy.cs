@@ -96,13 +96,20 @@ public class Enemy : MonoBehaviour
     /// </summary>
     /// <param name="data"></param>
     /// <param name="targetCore"></param>
-    public void InitEnemy(EnemyDataSO data, Transform targetCore = null)
+    public void InitEnemy(EnemyDataSO data, Transform targetCore = null, int wave = 1)
     {
         _data = data;
-        _currentHP = _data.MaxHP;
-        _currentMoveSpeed = _data.MoveSpeed;
-        _damage = _data.DamageToCore;
-        _exp = _data.ExpReward;
+
+        float waveFactor = Mathf.Max(0, wave - 1);
+        float hpMultiplier = 1f + (waveFactor * 0.7f);      
+        float damageMultiplier = 1f + (waveFactor * 0.2f);  
+        float speedMultiplier = Mathf.Min(2f, 1f + (waveFactor * 0.1f));
+        float expMultiplier = 1f + (waveFactor * 0.1f);
+
+        _currentHP = _data.MaxHP * hpMultiplier;
+        _currentMoveSpeed = _data.MoveSpeed * speedMultiplier;
+        _damage = _data.DamageToCore * damageMultiplier;
+        _exp = Mathf.RoundToInt(_data.ExpReward * expMultiplier);
 
         _state = EnemyState.Chasing;
         _attackTimer = 0f;

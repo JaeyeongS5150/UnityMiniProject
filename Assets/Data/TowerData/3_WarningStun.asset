@@ -24,8 +24,9 @@ MonoBehaviour:
   _slowRatio: 0
   _duration: 2
   _knockbackForce: 0
-  _stunAreaRadius: 20
-  _warningDelay: 0.5
+  _stunAreaRadius: 10
+  _warningDelay: 0.1
   _bulletPoolIndex: 17
+  _effectPoolIndex: 19
   _towerPrefab: {fileID: 3552838801481479206, guid: 1b650b4d25d724645a772828bab3013d, type: 3}
   _effectPrefab: {fileID: 7796530736737319055, guid: 029eb2f75ef4864498773db36905d814, type: 3}

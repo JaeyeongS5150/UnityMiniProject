@@ -33,6 +33,11 @@ public class LevelUp : MonoBehaviour
         GameManager.Instance.GamePause();
         _panel.SetActive(true);
 
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySfx(AudioManager.SFX.LevelUp);
+        }
+
         BaseCore core = GameManager.Instance.Core;
 
         List<LevelUpDataSO> validWeapons = new List<LevelUpDataSO>();

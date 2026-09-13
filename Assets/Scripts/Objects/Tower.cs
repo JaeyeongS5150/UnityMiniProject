@@ -93,10 +93,12 @@ public class Tower : MonoBehaviour
         {
             case TowerDataSO.CCType.SlowField:
                 FireTowerBullet(spawnPos, target, isPiercing: true);
+                PlaySfxSafe(AudioManager.SFX.Shoot1);
                 break;
 
             case TowerDataSO.CCType.ConfusionRay:
                 FireTowerBullet(spawnPos, target, isPiercing: false);
+                PlaySfxSafe(AudioManager.SFX.Shoot3);
                 break;
 
             case TowerDataSO.CCType.WarningStun:
@@ -105,6 +107,7 @@ public class Tower : MonoBehaviour
 
             case TowerDataSO.CCType.PushBarrier:
                 FireTowerBullet(spawnPos, target, isPiercing: true);
+                PlaySfxSafe(AudioManager.SFX.HeavyShoot);
                 break;
         }
     }
@@ -115,12 +118,11 @@ public class Tower : MonoBehaviour
     /// </summary>
     private void FireTowerBullet(Transform origin, Transform target, bool isPiercing)
     {
-        float lifeTime = _data.Range / _data.ProjectileSpeed;
         Vector3 dir = (target.position - origin.position);
         dir.y = 0f;
         dir.Normalize();
 
-        GameObject bulletObj = GameManager.Instance.Pool.GetObjFromPool(_data.BulletPoolIndex, lifeTime);
+        GameObject bulletObj = GameManager.Instance.Pool.GetObjFromPool(_data.BulletPoolIndex);
 
         if (bulletObj != null)
         {
@@ -152,32 +154,54 @@ public class Tower : MonoBehaviour
         }
 
         Vector3 areaPos = randomEnemy.position;
-        areaPos.y = 0.05f;
+        areaPos.y = 2f;
 
-        float visualLifeTime = _data.WarningDelay + 0.15f;
-        GameObject stunObj = GameManager.Instance.Pool.GetObjFromPool(_data.BulletPoolIndex, visualLifeTime);
+        Vector3 markerPos = randomEnemy.position;
+        markerPos.y = 7f;
 
-        if (stunObj != null)
+        GameObject markerObj = GameManager.Instance.Pool.GetObjFromPool(_data.BulletPoolIndex, _data.WarningDelay);
+
+        if (markerObj != null)
         {
-            stunObj.transform.position = areaPos;
-            stunObj.transform.rotation = Quaternion.identity;
+            markerObj.transform.position = markerPos;
+            markerObj.transform.rotation = new Quaternion(1f, 180, 1f, 1f);
+            markerObj.transform.localScale = Vector3.one * 1.5f;
+        }
 
-            stunObj.transform.localScale = Vector3.one * (_data.StunAreaRadius * 2f);
+        float areaLifeTime = _data.WarningDelay + 0.3f;
+        GameObject stunAreaObj = GameManager.Instance.Pool.GetObjFromPool(_data.EffectPoolIndex, areaLifeTime);
 
-            yield return new WaitForSeconds(_data.WarningDelay);
+        if (stunAreaObj != null)
+        {
+            stunAreaObj.transform.position = areaPos;
+            stunAreaObj.transform.rotation = Quaternion.identity;
 
-            Collider[] targets = Physics.OverlapSphere(areaPos, _data.StunAreaRadius, LayerMask.GetMask("Enemy"));
+            stunAreaObj.transform.localScale = new Vector3(_data.StunAreaRadius, 1f, _data.StunAreaRadius);
+        }
 
-            for (int i = 0; i < targets.Length; i++)
+        yield return new WaitForSeconds(_data.WarningDelay);
+
+        PlaySfxSafe(AudioManager.SFX.Stun);
+
+        Collider[] targets = Physics.OverlapSphere(areaPos, _data.StunAreaRadius,LayerMask.GetMask("Enemy"));
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            if (targets[i] != null && targets[i].TryGetComponent<Enemy>(out var enemy))
             {
-                if (targets[i] != null && targets[i].TryGetComponent<Enemy>(out var enemy))
-                {
-                    enemy.ApplyStun(_data.Duration);
-                    enemy.TakeDamage(_data.SubDamage);
-                }
+                enemy.ApplyStun(_data.Duration);
+                enemy.TakeDamage(_data.SubDamage);
             }
         }
         
     }
     #endregion
+
+    private void PlaySfxSafe(AudioManager.SFX sfx)
+    {
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlaySfx(sfx);
+        }
+    }
 }

@@ -18,12 +18,12 @@ MonoBehaviour:
   _enemyDescription: "\uC740\uC2E0\uD615: \uD2B9\uC815 \uC8FC\uAE30\uB9C8\uB2E4 0.3\uCD08
     \uD22C\uBA85 \uBC0F \uD0C0\uAC9F\uD305 \uC81C\uC678 \uD310\uC815"
   _maxHP: 15
-  _moveSpeed: 1.6
+  _moveSpeed: 4.8
   _damageToCore: 2
   _expReward: 2
   _splitCount: 2
   _dividedPrefab: {fileID: 0}
   _clusterCount: 9
-  _ghostTime: 0.3
+  _ghostTime: 2
   _enemyPoolIndex: 14
   _enemyPrefab: {fileID: 2215659141864878842, guid: bbc6b9fb8ae59464bb93938fdab58b27, type: 3}

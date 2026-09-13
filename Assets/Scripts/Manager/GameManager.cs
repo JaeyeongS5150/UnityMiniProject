@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Spawner _spawner;
     [SerializeField] private LevelUp _levelUp;
 
+    [Header("게임오버 UI 연결")]
+    [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private GameOverUI _gameOverUI;
+
+    private bool _isGameOver = false;
+
     #region 프로퍼티
     public bool IsLive => _isLive;
     public float GameTime => _gameTime;
@@ -52,6 +58,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        _gameOverPanel.SetActive(false);
+
         GameStart();
     }
 
@@ -101,7 +109,13 @@ public class GameManager : MonoBehaviour
     {
         _gameTime = 0f;
         _isLive = true;
+        _isGameOver = false;
         Time.timeScale = 1f;
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.PlayInGameBgm();
+        }
 
         if (_core == null)
         {
@@ -127,6 +141,29 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (_isGameOver) return;
 
+        _isGameOver = true;
+        _isLive = false;
+        Time.timeScale = 0f;
+
+        int totalKills = _core != null ? _core.TotalKills : 0;
+        int currentWave = _wave != null ? _wave.CurrentWave : 1;
+
+        if (_gameOverPanel != null)
+        {
+            _gameOverPanel.SetActive(true);
+        }
+
+        if (AudioManager.instance != null)
+        {
+            AudioManager.instance.StopBgm();
+            AudioManager.instance.PlaySfx(AudioManager.SFX.GameOver);
+        }
+
+        if (_gameOverUI != null)
+        {
+            _gameOverUI.DisplayResult(_gameTime, currentWave, totalKills);
+        }
     }
 }

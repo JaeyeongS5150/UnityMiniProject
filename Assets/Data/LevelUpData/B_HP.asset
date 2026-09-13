@@ -17,6 +17,6 @@ MonoBehaviour:
   _weaponData: {fileID: 0}
   _towerData: {fileID: 0}
   _buffName: "\uCCB4\uB825 \uC99D\uAC00"
-  _buffIcon: {fileID: 0}
-  _buffDescription: 
+  _buffIcon: {fileID: 21300000, guid: 5951a793eefc706449733b0ba0f6833d, type: 3}
+  _buffDescription: "\uCCB4\uB825 +10%"
   _buffValue: 0.1

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Boss_4Round_ClusterQueen
   m_EditorClassIdentifier: 
   _enemyType: 4
-  _enemyName: 
+  _enemyName: "\uD074\uB7EC\uC2A4\uD130 \uD038"
   _enemyIcon: {fileID: 0}
-  _enemyDescription: 
+  _enemyDescription: "4\uB77C\uC6B4\uB4DC \uBCF4\uC2A4"
   _maxHP: 2800
-  _moveSpeed: 1
+  _moveSpeed: 1.6
   _damageToCore: 15
   _expReward: 450
   _splitCount: 2

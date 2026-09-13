@@ -42,6 +42,7 @@ public class TowerDataSO : ScriptableObject
     [Header("오브젝트 풀링 인덱스")]
     [Tooltip("풀 매니저의 프리팹 배열에서의 인덱스 번호")]
     [SerializeField] private int _bulletPoolIndex;
+    [SerializeField] private int _effectPoolIndex;
 
     [Header("3D 프리팹")]
     [SerializeField] private GameObject _towerPrefab;
@@ -62,6 +63,7 @@ public class TowerDataSO : ScriptableObject
     public float StunAreaRadius => _stunAreaRadius;
     public float WarningDelay => _warningDelay;
     public int BulletPoolIndex => _bulletPoolIndex;
+    public int EffectPoolIndex => _effectPoolIndex;
     public GameObject TowerPrefab => _towerPrefab;
     public GameObject EffectPrefab => _effectPrefab;
     #endregion
